@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   padding: 180px 20px 100px;
@@ -7,7 +8,7 @@ const Container = styled.div`
   margin: 0 auto;
   background-color: #f7f7f7;
   border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h2`
@@ -33,7 +34,7 @@ const AccordionHeader = styled.div`
 
 const AccordionContent = styled.div`
   padding: 20px;
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   background-color: #fff;
 `;
 
@@ -52,7 +53,7 @@ const Input = styled.input`
   outline: none;
 
   &:focus {
-    border-color: #FF0000;
+    border-color: #ff0000;
   }
 `;
 
@@ -72,29 +73,58 @@ const Button = styled.button`
   }
 `;
 
-const PerfilPage = () => {
-  const [perfil, setPerfil] = useState({ nombre: '', correo: '' });
-  const [passwordActual, setPasswordActual] = useState('');
-  const [passwordNueva, setPasswordNueva] = useState('');
-  const [openSection, setOpenSection] = useState('perfil');
+const AdminSection = styled.div`
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+`;
 
-  const token = localStorage.getItem('token');
+const AdminLink = styled(Link)`
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  background-color: #000;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #cc0000;
+  }
+`;
+
+const PerfilPage = () => {
+  const [perfil, setPerfil] = useState({ nombre: "", correo: "" });
+  const [passwordActual, setPasswordActual] = useState("");
+  const [passwordNueva, setPasswordNueva] = useState("");
+  const [openSection, setOpenSection] = useState("perfil");
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchPerfil = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/auth/perfil', {
-          method: 'GET',
+        const res = await fetch("http://localhost:5000/api/auth/perfil", {
+          method: "GET",
           headers: {
-            'Authorization': `Bearer ${token}`,
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
-        if (!res.ok) throw new Error('Error al obtener el perfil');
+        if (!res.ok) throw new Error("Error al obtener el perfil");
         const data = await res.json();
-        setPerfil(data || { nombre: '', correo: '' });  // Asegúrate de que 'data' no sea null
+        setPerfil(data || { nombre: "", correo: "" });
+        
+        // Verificar si el usuario es admin
+        const rol = localStorage.getItem("rol");
+        setIsAdmin(rol === "Admin");
       } catch (err) {
-        alert('No se pudo cargar el perfil');
+        alert("No se pudo cargar el perfil");
       }
     };
 
@@ -103,53 +133,55 @@ const PerfilPage = () => {
 
   const handleGuardarPerfil = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/actualizar', {
-        method: 'PUT',
+      const res = await fetch("http://localhost:5000/api/auth/actualizar", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ nombre: perfil.nombre, correo: perfil.correo }),
       });
 
-      if (!res.ok) throw new Error('Error al actualizar perfil');
-      alert('Datos actualizados con éxito');
+      if (!res.ok) throw new Error("Error al actualizar perfil");
+      alert("Datos actualizados con éxito");
     } catch (err) {
-      alert('Hubo un problema al actualizar');
+      alert("Hubo un problema al actualizar");
     }
   };
 
   const handleGuardarContraseña = async () => {
     if (!passwordActual || !passwordNueva) {
-      alert('Por favor completa ambos campos');
+      alert("Por favor completa ambos campos");
       return;
     }
 
-    // Agregar validación de contraseña (por ejemplo, longitud mínima)
     if (passwordNueva.length < 6) {
-      alert('La nueva contraseña debe tener al menos 6 caracteres');
+      alert("La nueva contraseña debe tener al menos 6 caracteres");
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/cambiar-contrasena', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          contrasenaActual: passwordActual,
-          nuevaContrasena: passwordNueva,
-        }),
-      });
+      const res = await fetch(
+        "http://localhost:5000/api/auth/cambiar-contrasena",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            contrasenaActual: passwordActual,
+            nuevaContrasena: passwordNueva,
+          }),
+        }
+      );
 
-      if (!res.ok) throw new Error('Error al cambiar contraseña');
-      alert('Contraseña actualizada correctamente');
-      setPasswordActual('');
-      setPasswordNueva('');
+      if (!res.ok) throw new Error("Error al cambiar contraseña");
+      alert("Contraseña actualizada correctamente");
+      setPasswordActual("");
+      setPasswordNueva("");
     } catch (err) {
-      alert('Error al actualizar contraseña');
+      alert("Error al actualizar contraseña");
     }
   };
 
@@ -158,34 +190,68 @@ const PerfilPage = () => {
       <Title>Perfil de Usuario</Title>
 
       <AccordionSection>
-        <AccordionHeader onClick={() => setOpenSection(openSection === 'perfil' ? '' : 'perfil')}>
+        <AccordionHeader
+          onClick={() =>
+            setOpenSection(openSection === "perfil" ? "" : "perfil")
+          }
+        >
           Editar nombre y correo
         </AccordionHeader>
-        <AccordionContent isOpen={openSection === 'perfil'}>
+        <AccordionContent isOpen={openSection === "perfil"}>
           <Label>Nombre</Label>
-          <Input value={perfil.nombre} onChange={(e) => setPerfil({ ...perfil, nombre: e.target.value })} />
+          <Input
+            value={perfil.nombre}
+            onChange={(e) => setPerfil({ ...perfil, nombre: e.target.value })}
+          />
 
           <Label>Correo</Label>
-          <Input type="correo" value={perfil.correo} onChange={(e) => setPerfil({ ...perfil, correo: e.target.value })} />
+          <Input
+            type="correo"
+            value={perfil.correo}
+            onChange={(e) => setPerfil({ ...perfil, correo: e.target.value })}
+          />
 
           <Button onClick={handleGuardarPerfil}>Guardar Cambios</Button>
         </AccordionContent>
       </AccordionSection>
 
       <AccordionSection>
-        <AccordionHeader onClick={() => setOpenSection(openSection === 'password' ? '' : 'password')}>
+        <AccordionHeader
+          onClick={() =>
+            setOpenSection(openSection === "password" ? "" : "password")
+          }
+        >
           Cambiar contraseña
         </AccordionHeader>
-        <AccordionContent isOpen={openSection === 'password'}>
+        <AccordionContent isOpen={openSection === "password"}>
           <Label>Contraseña actual</Label>
-          <Input type="password" value={passwordActual} onChange={(e) => setPasswordActual(e.target.value)} />
+          <Input
+            type="password"
+            value={passwordActual}
+            onChange={(e) => setPasswordActual(e.target.value)}
+          />
 
           <Label>Nueva contraseña</Label>
-          <Input type="password" value={passwordNueva} onChange={(e) => setPasswordNueva(e.target.value)} />
+          <Input
+            type="password"
+            value={passwordNueva}
+            onChange={(e) => setPasswordNueva(e.target.value)}
+          />
 
-          <Button onClick={handleGuardarContraseña}>Actualizar Contraseña</Button>
+          <Button onClick={handleGuardarContraseña}>
+            Actualizar Contraseña
+          </Button>
         </AccordionContent>
       </AccordionSection>
+
+      {isAdmin && (
+        <AdminSection>
+          <Title>Panel de Administración</Title>
+          <AdminLink to="/admin">Gestionar Usuarios</AdminLink>
+          <AdminLink to="/products">Gestionar Productos</AdminLink>
+          <AdminLink to="/admin/envios">Gestionar Envíos</AdminLink>
+        </AdminSection>
+      )}
     </Container>
   );
 };

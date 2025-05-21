@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
-import { FaMoneyBillWave, FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
+import { FaMoneyBillWave, FaArrowRight, FaArrowLeft } from "react-icons/fa";
 
 // Contenedor de la flecha para mostrar u ocultar la barra lateral
 const ToggleArrow = styled.div`
   position: fixed;
   top: 50%;
-  left: ${({ isSidebarVisible }) => (isSidebarVisible ? '265px' : '1px')};
+  left: ${({ isSidebarVisible }) => (isSidebarVisible ? "265px" : "1px")};
   transform: translateY(-50%);
   background-color: #000;
   color: white;
@@ -33,9 +33,9 @@ const SidebarContainer = styled.div`
   position: fixed;
   height: 100vh;
   top: 0;
-  left: ${({ isSidebarVisible }) => (isSidebarVisible ? '0' : '-270px')};
+  left: ${({ isSidebarVisible }) => (isSidebarVisible ? "0" : "-270px")};
   transition: left 0.3s ease;
-  margin-top: ${({ isScrolled }) => (isScrolled ? '20px' : '90px')};
+  margin-top: ${({ isScrolled }) => (isScrolled ? "20px" : "90px")};
   overflow-y: auto;
   padding-bottom: 20px;
 
@@ -125,8 +125,8 @@ const Sidebar = ({ currency, setCurrency }) => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollPos]);
 
   const handleCurrencyChange = (e) => {
@@ -140,9 +140,16 @@ const Sidebar = ({ currency, setCurrency }) => {
   return (
     <>
       <ToggleArrow isSidebarVisible={isSidebarVisible} onClick={toggleSidebar}>
-        {isSidebarVisible ? <FaArrowLeft size={20} /> : <FaArrowRight size={20} />}
+        {isSidebarVisible ? (
+          <FaArrowLeft size={20} />
+        ) : (
+          <FaArrowRight size={20} />
+        )}
       </ToggleArrow>
-      <SidebarContainer isSidebarVisible={isSidebarVisible} isScrolled={isScrolled}>
+      <SidebarContainer
+        isSidebarVisible={isSidebarVisible}
+        isScrolled={isScrolled}
+      >
         <CurrencySelectContainer>
           <FaMoneyBillWave size={24} color="#fff" />
           <CurrencySelect value={currency} onChange={handleCurrencyChange}>

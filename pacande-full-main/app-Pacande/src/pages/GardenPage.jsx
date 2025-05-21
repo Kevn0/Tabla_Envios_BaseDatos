@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import ProductGallery from '../components/ProductGallery';
-import Sidebar from '../components/Sidebar';
-import { fetchExchangeRates, convertCurrency } from '../services/CurrencyService';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import ProductGallery from "../components/ProductGallery";
+import Sidebar from "../components/Sidebar";
+import {
+  fetchExchangeRates,
+  convertCurrency,
+} from "../services/CurrencyService";
 
 const Container = styled.div`
   display: flex;
@@ -33,11 +36,11 @@ const BorderedContainer = styled.div`
 `;
 
 const DecoraPage = () => {
-  const [currency, setCurrency] = useState('COP');
+  const [currency, setCurrency] = useState("COP");
   const [exchangeRates, setExchangeRates] = useState({});
   const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('Hogar');
-  const [selectedSubcategory, setSelectedSubcategory] = useState('Jardin');
+  const [selectedCategory, setSelectedCategory] = useState("Hogar");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("Jardin");
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -50,13 +53,15 @@ const DecoraPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/products/products?category=${selectedCategory}&subcategory=${selectedSubcategory}`);
-        console.log('Respuesta cruda del backend:', res);
-        if (!res.ok) throw new Error('Respuesta no válida del servidor');
+        const res = await fetch(
+          `http://localhost:5000/api/products/products?category=${selectedCategory}&subcategory=${selectedSubcategory}`
+        );
+        console.log("Respuesta cruda del backend:", res);
+        if (!res.ok) throw new Error("Respuesta no válida del servidor");
         const data = await res.json();
         setProducts(data.products);
       } catch (error) {
-        console.error('Error al obtener productos:', error);
+        console.error("Error al obtener productos:", error);
       }
     };
 
@@ -64,25 +69,27 @@ const DecoraPage = () => {
   }, [selectedCategory, selectedSubcategory]);
 
   const convertPrice = (price) => {
-    if (currency === 'COP') return price;
+    if (currency === "COP") return price;
     const rate = exchangeRates[currency];
     return rate ? convertCurrency(price, rate) : price;
   };
 
   return (
     <Container>
-      <Sidebar 
-        currency={currency} 
-        setCurrency={setCurrency} 
-        setSelectedCategory={setSelectedCategory} 
-        setSelectedSubcategory={setSelectedSubcategory} 
+      <Sidebar
+        currency={currency}
+        setCurrency={setCurrency}
+        setSelectedCategory={setSelectedCategory}
+        setSelectedSubcategory={setSelectedSubcategory}
       />
 
       <MainContent>
-        <SectionTitle>{selectedCategory} - {selectedSubcategory}</SectionTitle>
+        <SectionTitle>
+          {selectedCategory} - {selectedSubcategory}
+        </SectionTitle>
         <BorderedContainer>
-          <ProductGallery 
-            products={products.map(product => ({
+          <ProductGallery
+            products={products.map((product) => ({
               ...product,
               price: convertPrice(product.price),
               image: product.imageUrl, // Asegúrate de que esta propiedad existe

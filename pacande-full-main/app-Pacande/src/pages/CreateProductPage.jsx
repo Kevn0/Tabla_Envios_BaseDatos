@@ -1,40 +1,44 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CreateProductPage = () => {
   const [newProduct, setNewProduct] = useState({
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    subcategory: '',
-    imageUrl: '',
+    name: "",
+    description: "",
+    price: "",
+    category: "",
+    subcategory: "",
+    imageUrl: "",
   });
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [subcategories, setSubcategories] = useState([]);
   const navigate = useNavigate();
 
   const categories = [
-    { _id: '1', name: 'Ropa' },
-    { _id: '2', name: 'Tecnología' },
-    { _id: '3', name: 'Hogar' },
-    { _id: '4', name: 'Deporte' },
+    { _id: "1", name: "Ropa" },
+    { _id: "2", name: "Tecnología" },
+    { _id: "3", name: "Hogar" },
+    { _id: "4", name: "Deporte" },
   ];
 
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
-    setNewProduct({ ...newProduct, category: selectedCategory, subcategory: '' });
+    setNewProduct({
+      ...newProduct,
+      category: selectedCategory,
+      subcategory: "",
+    });
 
-    if (selectedCategory === 'Ropa') {
-      setSubcategories(['Hombre', 'Mujer', 'Niños']);
-    } else if (selectedCategory === 'Tecnología') {
-      setSubcategories(['Computadoras', 'Celulares', 'Accesorios']);
-    } else if (selectedCategory === 'Hogar') {
-      setSubcategories(['Muebles', 'Decoración', 'Jardin']);
-    } else if (selectedCategory === 'Deporte') {
-      setSubcategories(['Fútbol', 'Básquetbol', 'variedad']);
+    if (selectedCategory === "Ropa") {
+      setSubcategories(["Hombre", "Mujer", "Niños"]);
+    } else if (selectedCategory === "Tecnología") {
+      setSubcategories(["Computadoras", "Celulares", "Accesorios"]);
+    } else if (selectedCategory === "Hogar") {
+      setSubcategories(["Muebles", "Decoración", "Jardin"]);
+    } else if (selectedCategory === "Deporte") {
+      setSubcategories(["Fútbol", "Básquetbol", "variedad"]);
     } else {
       setSubcategories([]);
     }
@@ -43,22 +47,25 @@ const CreateProductPage = () => {
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/products/products/create', newProduct);
+      const response = await axios.post(
+        "http://localhost:5000/api/products/products/create",
+        newProduct
+      );
       setMessage(response.data.message);
       setNewProduct({
-        name: '',
-        description: '',
-        price: '',
-        category: '',
-        subcategory: '',
-        imageUrl: '',
+        name: "",
+        description: "",
+        price: "",
+        category: "",
+        subcategory: "",
+        imageUrl: "",
       });
       setTimeout(() => {
-        navigate('/products');
+        navigate("/products");
       }, 2000);
     } catch (error) {
-      setMessage('Error al crear el producto');
-      console.error('Error al crear producto:', error);
+      setMessage("Error al crear el producto");
+      console.error("Error al crear producto:", error);
     }
   };
 
@@ -153,7 +160,9 @@ const CreateProductPage = () => {
             style={styles.input}
           />
         </div>
-        <button type="submit" style={styles.button}>Crear Producto</button>
+        <button type="submit" style={styles.button}>
+          Crear Producto
+        </button>
       </form>
     </div>
   );
@@ -161,41 +170,41 @@ const CreateProductPage = () => {
 
 const styles = {
   container: {
-    width: '80%',
-    margin: '120px auto',
-    padding: '20px',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+    width: "80%",
+    margin: "120px auto",
+    padding: "20px",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
   },
   title: {
-    textAlign: 'center',
-    color: '#333',
+    textAlign: "center",
+    color: "#333",
   },
   input: {
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    fontSize: '16px',
-    marginBottom: '10px',
-    width: '100%',
+    padding: "10px",
+    border: "1px solid #ddd",
+    borderRadius: "4px",
+    fontSize: "16px",
+    marginBottom: "10px",
+    width: "100%",
   },
   button: {
-    padding: '10px 15px',
-    border: 'none',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    marginTop: '20px',
+    padding: "10px 15px",
+    border: "none",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    borderRadius: "4px",
+    cursor: "pointer",
+    marginTop: "20px",
   },
   message: {
-    marginBottom: '20px',
-    padding: '10px',
-    backgroundColor: '#f8d7da',
-    color: '#721c24',
-    borderRadius: '5px',
-    textAlign: 'center',
+    marginBottom: "20px",
+    padding: "10px",
+    backgroundColor: "#f8d7da",
+    color: "#721c24",
+    borderRadius: "5px",
+    textAlign: "center",
   },
 };
 

@@ -1,35 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
-import { TextField, Button, Box, Typography, CircularProgress, MenuItem, Select, InputLabel, FormControl, Container } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  CircularProgress,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Container,
+} from "@mui/material";
 
 const ActualizarUsuarioPage = () => {
-  const { id } = useParams();  // Extraemos el ID de los parámetros de la URL
+  const { id } = useParams(); // Extraemos el ID de los parámetros de la URL
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [nombre, setNombre] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [rol, setRol] = useState('');
-  const [contraseña, setContraseña] = useState('');
-  const [error, setError] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [rol, setRol] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const obtenerUsuario = async () => {
       try {
         console.log("ID del usuario:", id);
-        const response = await axios.get(`http://localhost:5000/api/admin/usuarios/${id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        });
+        const response = await axios.get(
+          `http://localhost:5000/api/admin/usuarios/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setUsuario(response.data);
         setNombre(response.data.nombre);
         setCorreo(response.data.correo);
         setRol(response.data.rol);
       } catch (error) {
-        console.error('Error al obtener el usuario:', error);
-        alert('No se pudo obtener el usuario');
-        navigate('/admin');
+        console.error("Error al obtener el usuario:", error);
+        alert("No se pudo obtener el usuario");
+        navigate("/admin");
       } finally {
         setLoading(false);
       }
@@ -48,19 +64,23 @@ const ActualizarUsuarioPage = () => {
         nombre,
         correo,
         rol,
-        ...(contraseña && { contraseña }),  // Solo agregamos la contraseña si está presente
+        ...(contraseña && { contraseña }), // Solo agregamos la contraseña si está presente
       };
 
-      const response = await axios.put(`http://localhost:5000/api/admin/usuarios/${id}`, updatedUser, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-      toast.success('Usuario actualizado correctamente');
-      setTimeout(() => { 
-      navigate('/admin');
+      const response = await axios.put(
+        `http://localhost:5000/api/admin/usuarios/${id}`,
+        updatedUser,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      toast.success("Usuario actualizado correctamente");
+      setTimeout(() => {
+        navigate("/admin");
       }, 1000); // Redirige después de 2 segundos
     } catch (error) {
-      console.error('Error al actualizar el usuario:', error);
-      setError('Hubo un problema al actualizar el usuario');
+      console.error("Error al actualizar el usuario:", error);
+      setError("Hubo un problema al actualizar el usuario");
     }
   };
 
@@ -69,13 +89,13 @@ const ActualizarUsuarioPage = () => {
   }
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 18, mb: 12 }}> {/* Aumentamos el margen superior y añadimos margen inferior */}
+    <Container maxWidth="sm" sx={{ mt: 18, mb: 12 }}>
+      {" "}
+      {/* Aumentamos el margen superior y añadimos margen inferior */}
       <Typography variant="h4" align="center" gutterBottom>
         Actualizar Usuario
       </Typography>
-
       {error && <Typography color="error">{error}</Typography>}
-
       <form onSubmit={handleSubmit}>
         <Box mb={2}>
           <TextField

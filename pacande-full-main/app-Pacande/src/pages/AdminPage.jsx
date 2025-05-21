@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Typography,
   Table,
@@ -15,9 +15,9 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+  DialogTitle,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -28,33 +28,42 @@ const AdminPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
+    const rol = localStorage.getItem("rol");
+
     if (!token) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    if (decodedToken.rol !== 'admin') {
-      navigate('/');
+    if (rol !== "Admin") {
+      navigate("/");
       return;
     }
 
     const obtenerUsuarios = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/usuarios', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const response = await axios.get(
+          "http://localhost:5000/api/admin/usuarios",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-        // Filtrar los usuarios y administradores
-        const usuariosList = response.data.filter(usuario => usuario.rol === 'Usuario');
-        const adminsList = response.data.filter(usuario => usuario.rol === 'admin');
+        const usuariosList = response.data.filter(
+          (usuario) => usuario.rol === "Usuario"
+        );
+        const adminsList = response.data.filter(
+          (usuario) => usuario.rol === "Admin"
+        );
 
         setUsuarios(usuariosList);
-        console.log('Usuarios del backend:', response.data);
         setAdmins(adminsList);
+        console.log("Usuarios recibidos:", response.data);
+        console.log("Usuarios filtrados:", usuariosList);
+        console.log("Admins filtrados:", adminsList);
       } catch (error) {
-        console.error('Error al obtener usuarios:', error);
+        console.error("Error al obtener usuarios:", error);
       } finally {
         setLoading(false);
       }
@@ -65,16 +74,23 @@ const AdminPage = () => {
 
   const eliminarUsuario = async () => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/admin/eliminar-usuario/${userToDelete._id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
+      const response = await axios.delete(
+        `http://localhost:5000/api/admin/eliminar-usuario/${userToDelete._id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       alert(response.data.mensaje);
-      setUsuarios((prev) => prev.filter(usuario => usuario._id !== userToDelete._id));
-      setAdmins((prev) => prev.filter(usuario => usuario._id !== userToDelete._id));  // Actualizar también los administradores
+      setUsuarios((prev) =>
+        prev.filter((usuario) => usuario._id !== userToDelete._id)
+      );
+      setAdmins((prev) =>
+        prev.filter((usuario) => usuario._id !== userToDelete._id)
+      );
       setOpenDialog(false);
     } catch (error) {
-      console.error('Error al eliminar usuario:', error);
-      alert('Error al eliminar el usuario');
+      console.error("Error al eliminar usuario:", error);
+      alert("Error al eliminar el usuario");
     }
   };
 
@@ -112,11 +128,21 @@ const AdminPage = () => {
             <Table>
               <TableHead>
                 <TableRow sx={styles.tableHeaderRow}>
-                  <TableCell><strong>Nombre</strong></TableCell>
-                  <TableCell><strong>Correo</strong></TableCell>
-                  <TableCell><strong>Rol</strong></TableCell>
-                  <TableCell><strong>Fecha de Creación</strong></TableCell>
-                  <TableCell align="center"><strong>Acciones</strong></TableCell>
+                  <TableCell>
+                    <strong>Nombre</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Correo</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Rol</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Fecha de Creación</strong>
+                  </TableCell>
+                  <TableCell align="center">
+                    <strong>Acciones</strong>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -126,18 +152,17 @@ const AdminPage = () => {
                     <TableCell>{usuario.correo}</TableCell>
                     <TableCell>{usuario.rol}</TableCell>
                     <TableCell>
-                      {usuario.createdAt && !isNaN(Date.parse(usuario.createdAt)) ? (
-                        new Date(usuario.createdAt).toLocaleString('es-CO', {
-                          timeZone: 'America/Bogota',
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })
-                      ) : (
-                        'Fecha no disponible'
-                      )}
+                      {usuario.createdAt &&
+                      !isNaN(Date.parse(usuario.createdAt))
+                        ? new Date(usuario.createdAt).toLocaleString("es-CO", {
+                            timeZone: "America/Bogota",
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "Fecha no disponible"}
                     </TableCell>
                     <TableCell align="center">
                       <Button
@@ -172,11 +197,21 @@ const AdminPage = () => {
             <Table>
               <TableHead>
                 <TableRow sx={styles.tableHeaderRow}>
-                  <TableCell><strong>Nombre</strong></TableCell>
-                  <TableCell><strong>Correo</strong></TableCell>
-                  <TableCell><strong>Rol</strong></TableCell>
-                  <TableCell><strong>Fecha de Creación</strong></TableCell>
-                  <TableCell align="center"><strong>Acciones</strong></TableCell>
+                  <TableCell>
+                    <strong>Nombre</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Correo</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Rol</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Fecha de Creación</strong>
+                  </TableCell>
+                  <TableCell align="center">
+                    <strong>Acciones</strong>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -186,18 +221,17 @@ const AdminPage = () => {
                     <TableCell>{usuario.correo}</TableCell>
                     <TableCell>{usuario.rol}</TableCell>
                     <TableCell>
-                      {usuario.createdAt && !isNaN(Date.parse(usuario.createdAt)) ? (
-                        new Date(usuario.createdAt).toLocaleString('es-CO', {
-                          timeZone: 'America/Bogota',
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })
-                      ) : (
-                        'Fecha no disponible'
-                      )}
+                      {usuario.createdAt &&
+                      !isNaN(Date.parse(usuario.createdAt))
+                        ? new Date(usuario.createdAt).toLocaleString("es-CO", {
+                            timeZone: "America/Bogota",
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "Fecha no disponible"}
                     </TableCell>
                     <TableCell align="center">
                       <Button
@@ -236,7 +270,7 @@ const AdminPage = () => {
           <Button onClick={handleCloseDialog} color="primary">
             Cancelar
           </Button>
-          <Button onClick={eliminarUsuario} color="secondary">
+          <Button onClick={eliminarUsuario} color="error">
             Eliminar
           </Button>
         </DialogActions>
@@ -247,37 +281,38 @@ const AdminPage = () => {
 
 const styles = {
   container: {
-    width: '90%',
-    margin: '200px auto',
-    padding: '20px',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+    width: "90%",
+    margin: "200px auto",
+    padding: "20px",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
   },
   title: {
-    color: '#333',
-    marginBottom: '20px',
+    color: "#333",
+    marginBottom: "20px",
   },
   subtitle: {
-    color: '#555',
-    marginBottom: '20px',
+    color: "#555",
+    marginBottom: "20px",
+    marginTop: "30px",
   },
   tableContainer: {
     mt: 4,
-    borderRadius: '8px',
-    boxShadow: '0 1px 6px rgba(0,0,0,0.1)',
+    borderRadius: "8px",
+    boxShadow: "0 1px 6px rgba(0,0,0,0.1)",
   },
   tableHeaderRow: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: "#f5f5f5",
   },
   tableRow: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#fafafa',
+    "&:nth-of-type(odd)": {
+      backgroundColor: "#fafafa",
     },
   },
   actionButton: {
-    marginRight: '8px',
-  }
+    marginRight: "8px",
+  },
 };
 
 export default AdminPage;

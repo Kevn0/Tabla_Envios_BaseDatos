@@ -1,7 +1,13 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import React from "react";
+import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa";
 
 // Contenedor principal del footer
 const FooterContainer = styled.footer`
@@ -65,7 +71,7 @@ const Links = styled.ul`
       transition: color 0.3s;
 
       &:hover {
-        color: #FF0000; // Color al pasar el mouse
+        color: #ff0000; // Color al pasar el mouse
       }
     }
   }
@@ -82,7 +88,7 @@ const SocialIcons = styled.div`
     transition: color 0.3s;
 
     &:hover {
-      color: #FF0000; // Color al pasar el mouse
+      color: #ff0000; // Color al pasar el mouse
     }
   }
 `;
@@ -104,34 +110,65 @@ const Footer = () => {
         <Section>
           <SectionTitle>Sobre Nosotros</SectionTitle>
           <p>
-            Somos una empresa comprometida con brindar la mejor experiencia de compra en línea.
+            Somos una empresa comprometida con brindar la mejor experiencia de
+            compra en línea.
           </p>
         </Section>
         <Section>
           <SectionTitle>Enlaces útiles</SectionTitle>
           <Links>
-            <li><Link to="/terms">Términos y condiciones</Link></li>
-            <li><Link to="/privacy">Política de privacidad</Link></li>
-            <li><Link to="/contact" onClick={handleContactClick}>Contacto</Link></li>
-            <li><Link to="/help">Ayuda</Link></li>
+            <li>
+              <Link to="/terms">Términos y condiciones</Link>
+            </li>
+            <li>
+              <Link to="/privacy">Política de privacidad</Link>
+            </li>
+            <li>
+              <Link to="/contact" onClick={handleContactClick}>
+                Contacto
+              </Link>
+            </li>
+            <li>
+              <Link to="/help">Ayuda</Link>
+            </li>
           </Links>
         </Section>
         <Section>
           <SectionTitle>Síguenos</SectionTitle>
           <SocialIcons>
-            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaFacebookF />
             </a>
-            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaTwitter />
             </a>
-            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaInstagram />
             </a>
-            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaLinkedin />
             </a>
-            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.youtube.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaYoutube />
             </a>
           </SocialIcons>

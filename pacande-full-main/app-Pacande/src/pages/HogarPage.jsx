@@ -1,9 +1,12 @@
 // src/pages/HogarPage.js
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import ProductGallery from '../components/ProductGallery'; // Componente de galería reutilizado
-import Sidebar from '../components/Sidebar'; // Sidebar añadido
-import { fetchExchangeRates, convertCurrency } from '../services/CurrencyService';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import ProductGallery from "../components/ProductGallery"; // Componente de galería reutilizado
+import Sidebar from "../components/Sidebar"; // Sidebar añadido
+import {
+  fetchExchangeRates,
+  convertCurrency,
+} from "../services/CurrencyService";
 
 // Estilos del contenedor principal
 const Container = styled.div`
@@ -36,12 +39,12 @@ const BorderedContainer = styled.div`
 `;
 
 const HogarPage = () => {
-  const [currency, setCurrency] = useState('COP');
+  const [currency, setCurrency] = useState("COP");
   const [exchangeRates, setExchangeRates] = useState({});
   const [filteredMuebles, setFilteredMuebles] = useState([]);
 
-  const selectedCategory = 'Hogar';
-  const selectedSubcategory = 'Muebles';
+  const selectedCategory = "Hogar";
+  const selectedSubcategory = "Muebles";
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -59,11 +62,11 @@ const HogarPage = () => {
         const res = await fetch(
           `http://localhost:5000/api/products/products?category=${selectedCategory}&subcategory=${selectedSubcategory}`
         );
-        if (!res.ok) throw new Error('Error al obtener productos');
+        if (!res.ok) throw new Error("Error al obtener productos");
         const data = await res.json();
         setFilteredMuebles(data.products);
       } catch (error) {
-        console.error('Error al obtener productos:', error);
+        console.error("Error al obtener productos:", error);
       }
     };
 
@@ -71,7 +74,7 @@ const HogarPage = () => {
   }, [selectedCategory, selectedSubcategory]);
 
   const convertPrice = (price) => {
-    if (currency === 'COP') return price;
+    if (currency === "COP") return price;
     const rate = exchangeRates[currency];
     return rate ? convertCurrency(price, rate) : price;
   };
@@ -85,7 +88,7 @@ const HogarPage = () => {
         <SectionTitle>{`${selectedCategory} - ${selectedSubcategory}`}</SectionTitle>
         <BorderedContainer>
           <ProductGallery
-            products={filteredMuebles.map(product => ({
+            products={filteredMuebles.map((product) => ({
               ...product,
               price: convertPrice(product.price),
               image: product.imageUrl, // Asegúrate de que las imágenes estén bien definidas en el backend

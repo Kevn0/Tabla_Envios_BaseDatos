@@ -1,12 +1,12 @@
 // src/pages/ContactPage.js
-import React from 'react';
-import styled from '@emotion/styled';
+import React from "react";
+import styled from "@emotion/styled";
 
 const ContactContainer = styled.div`
   display: flex;
   justify-content: space-between;
   text-align: center;
-  align-items: center ;
+  align-items: center;
   margin: 10px 40px;
   background-color: #f4f4f4; /* Fondo claro */
   min-height: 100vh;
@@ -16,7 +16,7 @@ const ContactContainer = styled.div`
 const ContactFormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 40%; 
+  width: 40%;
 `;
 
 const ContactTitle = styled.h1`
@@ -98,7 +98,8 @@ const ContactPage = () => {
       <ContactFormContainer>
         <ContactTitle>Contacto</ContactTitle>
         <ContactText>
-          Si tienes alguna pregunta, no dudes en comunicarte con nosotros llenando el siguiente formulario.
+          Si tienes alguna pregunta, no dudes en comunicarte con nosotros
+          llenando el siguiente formulario.
         </ContactText>
         <ContactForm>
           <InputField type="text" placeholder="Nombre" />
@@ -124,4 +125,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-

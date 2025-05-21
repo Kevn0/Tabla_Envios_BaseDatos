@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import 'uikit/dist/css/uikit.min.css';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "@emotion/styled";
+import "uikit/dist/css/uikit.min.css";
+import { Link } from "react-router-dom";
 
 const TermsContainer = styled.div`
   background-color: #ffffff;
@@ -50,27 +50,47 @@ const TermsPage = () => {
 
       <Section>
         <SectionTitle>1. Introducción</SectionTitle>
-        <p>Bienvenido a nuestra página. Al acceder y utilizar nuestro sitio web, aceptas cumplir con los siguientes términos y condiciones. Si no estás de acuerdo con estos términos, te recomendamos no utilizar nuestro sitio.</p>
+        <p>
+          Bienvenido a nuestra página. Al acceder y utilizar nuestro sitio web,
+          aceptas cumplir con los siguientes términos y condiciones. Si no estás
+          de acuerdo con estos términos, te recomendamos no utilizar nuestro
+          sitio.
+        </p>
       </Section>
 
       <Section>
         <SectionTitle>2. Uso del Sitio</SectionTitle>
-        <p>Este sitio está destinado únicamente para el uso personal y no comercial. No puedes utilizar nuestro sitio para ningún propósito ilegal o no autorizado.</p>
+        <p>
+          Este sitio está destinado únicamente para el uso personal y no
+          comercial. No puedes utilizar nuestro sitio para ningún propósito
+          ilegal o no autorizado.
+        </p>
       </Section>
 
       <Section>
         <SectionTitle>3. Propiedad Intelectual</SectionTitle>
-        <p>Todo el contenido de este sitio, incluyendo textos, gráficos, logotipos y software, es propiedad de nuestra empresa o de nuestros proveedores y está protegido por las leyes de propiedad intelectual.</p>
+        <p>
+          Todo el contenido de este sitio, incluyendo textos, gráficos,
+          logotipos y software, es propiedad de nuestra empresa o de nuestros
+          proveedores y está protegido por las leyes de propiedad intelectual.
+        </p>
       </Section>
 
       <Section>
         <SectionTitle>4. Modificaciones de Términos</SectionTitle>
-        <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Te recomendamos revisar esta página periódicamente para estar al tanto de los cambios.</p>
+        <p>
+          Nos reservamos el derecho de modificar estos términos en cualquier
+          momento. Te recomendamos revisar esta página periódicamente para estar
+          al tanto de los cambios.
+        </p>
       </Section>
 
       <Section>
         <SectionTitle>5. Contacto</SectionTitle>
-        <p>Si tienes preguntas sobre estos términos, no dudes en contactarnos a través de nuestra página de contacto.</p>
+        <p>
+          Si tienes preguntas sobre estos términos, no dudes en contactarnos a
+          través de nuestra página de contacto.
+        </p>
       </Section>
 
       <ContactLink to="/contact">Contáctanos</ContactLink>

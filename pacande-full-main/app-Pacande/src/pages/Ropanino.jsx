@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { useLocation } from 'react-router-dom';
-import ProductGallery from '../components/ProductGallery';
-import Sidebar from '../components/Sidebar';
-import { fetchExchangeRates, convertCurrency } from '../services/CurrencyService';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { useLocation } from "react-router-dom";
+import ProductGallery from "../components/ProductGallery";
+import Sidebar from "../components/Sidebar";
+import {
+  fetchExchangeRates,
+  convertCurrency,
+} from "../services/CurrencyService";
 
 const Container = styled.div`
   display: flex;
@@ -36,12 +39,12 @@ const BorderedContainer = styled.div`
 
 const RopaNiñoPage = () => {
   const location = useLocation();
-  const [currency, setCurrency] = useState('COP');
+  const [currency, setCurrency] = useState("COP");
   const [exchangeRates, setExchangeRates] = useState({});
   const [products, setProducts] = useState([]);
 
-  const selectedCategory = 'Ropa';
-  const selectedSubcategory = 'Niños';
+  const selectedCategory = "Ropa";
+  const selectedSubcategory = "Niños";
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -59,11 +62,11 @@ const RopaNiñoPage = () => {
         const res = await fetch(
           `http://localhost:5000/api/products/products?category=${selectedCategory}&subcategory=${selectedSubcategory}`
         );
-        if (!res.ok) throw new Error('Error al obtener productos');
+        if (!res.ok) throw new Error("Error al obtener productos");
         const data = await res.json();
         setProducts(data.products);
       } catch (error) {
-        console.error('Error al obtener productos:', error);
+        console.error("Error al obtener productos:", error);
       }
     };
 
@@ -71,7 +74,7 @@ const RopaNiñoPage = () => {
   }, [selectedCategory, selectedSubcategory]);
 
   const convertPrice = (price) => {
-    if (currency === 'COP') return price;
+    if (currency === "COP") return price;
     const rate = exchangeRates[currency];
     return rate ? convertCurrency(price, rate) : price;
   };
@@ -84,7 +87,7 @@ const RopaNiñoPage = () => {
         <SectionTitle>Ropa para Niños</SectionTitle>
         <BorderedContainer>
           <ProductGallery
-            products={products.map(product => ({
+            products={products.map((product) => ({
               ...product,
               price: convertPrice(product.price),
               image: product.imageUrl,

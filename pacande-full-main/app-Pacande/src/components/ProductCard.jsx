@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
-import 'uikit/dist/css/uikit.min.css';
-import { FaStar, FaShoppingCart } from 'react-icons/fa';
+import React, { useState } from "react";
+import styled from "@emotion/styled";
+import "uikit/dist/css/uikit.min.css";
+import { FaStar, FaShoppingCart } from "react-icons/fa";
 
 const Card = styled.div`
   background-color: white;
@@ -26,11 +26,11 @@ const FavoriteButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 24px;
-  color: ${({ isFavorite }) => (isFavorite ? '#ff0000' : '#808080')};
+  color: ${({ isFavorite }) => (isFavorite ? "#ff0000" : "#808080")};
   transition: color 0.3s ease;
   z-index: 2;
   &:hover {
-    color: ${({ isFavorite }) => (isFavorite ? '#cc0000' : '#ff0000')};
+    color: ${({ isFavorite }) => (isFavorite ? "#cc0000" : "#ff0000")};
   }
   &:focus {
     outline: none;
@@ -82,7 +82,7 @@ const PriceContainer = styled.div`
 
 const Price = styled.span`
   font-size: 1.2rem;
-  color:rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
   font-weight: bold;
 `;
 
@@ -130,7 +130,17 @@ const CartButton = styled.button`
   }
 `;
 
-const ProductCard = ({ title, price, image, showSizes, sizes, discount, category, specifications, description }) => {
+const ProductCard = ({
+  title,
+  price,
+  image,
+  showSizes,
+  sizes,
+  discount,
+  category,
+  specifications,
+  description,
+}) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
 
@@ -146,7 +156,7 @@ const ProductCard = ({ title, price, image, showSizes, sizes, discount, category
     }
   };
 
-  const imageUrl = image || 'http://placekitten.com/500/500'; // URL de imagen por defecto si no hay imagen
+  const imageUrl = image || "http://placekitten.com/500/500"; // URL de imagen por defecto si no hay imagen
 
   return (
     <Card>
@@ -156,7 +166,9 @@ const ProductCard = ({ title, price, image, showSizes, sizes, discount, category
       {discount && <DiscountLabel>50% OFF</DiscountLabel>}
       <ProductImage src={imageUrl} alt={title} />
       <ProductTitle>{title}</ProductTitle>
-      {description && (<p style={{ marginBottom: '10px', color: '#666' }}>{description}</p>)}
+      {description && (
+        <p style={{ marginBottom: "10px", color: "#666" }}>{description}</p>
+      )}
       <StarRating>
         <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar />
       </StarRating>

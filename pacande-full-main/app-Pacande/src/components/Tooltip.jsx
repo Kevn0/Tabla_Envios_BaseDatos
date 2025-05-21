@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from '@emotion/styled';
+import React from "react";
+import styled from "@emotion/styled";
 
 const TooltipContainer = styled.div`
   position: absolute;
@@ -14,22 +14,21 @@ const TooltipContainer = styled.div`
   white-space: nowrap; /* Evita que el texto se divida en varias líneas */
   z-index: 101; /* Asegura que el tooltip esté por encima de otros elementos */
   transition: opacity 0.3s;
-  opacity: ${({ visible }) => (visible ? 1 : 0)}; /* Transición de visibilidad */
+  opacity: ${({ visible }) =>
+    visible ? 1 : 0}; /* Transición de visibilidad */
 `;
 
 const Tooltip = ({ text, children }) => {
   const [visible, setVisible] = React.useState(false);
 
   return (
-    <div 
-      style={{ position: 'relative', display: 'inline-block' }} 
-      onMouseEnter={() => setVisible(true)} 
+    <div
+      style={{ position: "relative", display: "inline-block" }}
+      onMouseEnter={() => setVisible(true)}
       onMouseLeave={() => setVisible(false)}
     >
       {children}
-      <TooltipContainer visible={visible}>
-        {text}
-      </TooltipContainer>
+      <TooltipContainer visible={visible}>{text}</TooltipContainer>
     </div>
   );
 };

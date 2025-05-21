@@ -1,27 +1,27 @@
-import React, { useEffect, useRef } from 'react';
-import styled from '@emotion/styled';
-import 'uikit/dist/css/uikit.min.css';
-import 'uikit/dist/js/uikit.min.js';
-import { HashLink } from 'react-router-hash-link';
+import React, { useEffect, useRef } from "react";
+import styled from "@emotion/styled";
+import "uikit/dist/css/uikit.min.css";
+import "uikit/dist/js/uikit.min.js";
+import { HashLink } from "react-router-hash-link";
 
 // Importa las imágenes locales
-import mujerImage from '../images/mujer1.jpg';
-import hombreImage from '../images/hombre.jpg';
-import carruselImage from '../images/carrusel1.jpg';
-import carrusel2Image from '../images/carrusel2.jpg';
-import carrusel3Image from '../images/carrusel3.jpg';
-import celulares from '../images/celulares.jpg';
-import computadores from '../images/computadores.jpeg';
-import accesorios from '../images/accesorios.jpeg';
-import futbol from '../images/futbol.jpeg';
-import baloncesto from '../images/baloncesto.jpeg';
-import variedad from '../images/variedad.jpeg';
-import muebles from '../images/muebles.jpeg';
-import decoracion from '../images/decoracion.jpeg';
-import jardin from '../images/jardin.jpeg';
+import mujerImage from "../images/mujer1.jpg";
+import hombreImage from "../images/hombre.jpg";
+import carruselImage from "../images/carrusel1.jpg";
+import carrusel2Image from "../images/carrusel2.jpg";
+import carrusel3Image from "../images/carrusel3.jpg";
+import celulares from "../images/celulares.jpg";
+import computadores from "../images/computadores.jpeg";
+import accesorios from "../images/accesorios.jpeg";
+import futbol from "../images/futbol.jpeg";
+import baloncesto from "../images/baloncesto.jpeg";
+import variedad from "../images/variedad.jpeg";
+import muebles from "../images/muebles.jpeg";
+import decoracion from "../images/decoracion.jpeg";
+import jardin from "../images/jardin.jpeg";
 
 const HomePageContainer = styled.div`
-  background-color: #FFFFFF; /* Fondo Blanco Puro */
+  background-color: #ffffff; /* Fondo Blanco Puro */
   color: #333333; /* Texto Gris Antracita */
   text-align: center;
   padding: 20px;
@@ -36,7 +36,6 @@ const WideCardContainer = styled.div`
   margin-bottom: 40px;
   gap: 25px; /* Espacio entre cartas */
 `;
-
 
 const WideCard = styled.div`
   width: 45%;
@@ -57,7 +56,7 @@ const WideCard = styled.div`
 
   /* Capa de opacidad sobre la imagen */
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -71,7 +70,7 @@ const WideCard = styled.div`
   span {
     position: relative;
     z-index: 2; /* Para que el texto quede por encima de la capa de opacidad */
-    color: #FFFFFF; /* Texto en blanco */
+    color: #ffffff; /* Texto en blanco */
   }
 
   &:hover {
@@ -82,7 +81,7 @@ const WideCard = styled.div`
 const StyledLink = styled(HashLink)`
   position: relative;
   z-index: 2;
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
   outline: none; /* Quita el delineado azul */
   border-bottom: 3px solid transparent; /* Sin borde al inicio */
@@ -94,8 +93,6 @@ const StyledLink = styled(HashLink)`
     outline: none; /* Asegura que no haya delineado al hacer clic */
     text-decoration: none; /* Quita el subrayado al hacer clic */
   }
-
-  
 `;
 
 // Componente para las tarjetas de Tecnología
@@ -108,7 +105,7 @@ const TechWideCard = styled(WideCard)`
 const TechCardContainer = styled(WideCardContainer)`
   background-color: #000000; /* Fondo Negro */
   padding: 20px;
-  color: #FFFFFF;
+  color: #ffffff;
 `;
 
 const HomePage = () => {
@@ -126,12 +123,18 @@ const HomePage = () => {
         ukSlideshow.start();
       };
 
-      slideshowRef.current.addEventListener('mouseenter', handleMouseEnter);
-      slideshowRef.current.addEventListener('mouseleave', handleMouseLeave);
+      slideshowRef.current.addEventListener("mouseenter", handleMouseEnter);
+      slideshowRef.current.addEventListener("mouseleave", handleMouseLeave);
 
       return () => {
-        slideshowRef.current.removeEventListener('mouseenter', handleMouseEnter);
-        slideshowRef.current.removeEventListener('mouseleave', handleMouseLeave);
+        slideshowRef.current.removeEventListener(
+          "mouseenter",
+          handleMouseEnter
+        );
+        slideshowRef.current.removeEventListener(
+          "mouseleave",
+          handleMouseLeave
+        );
       };
     }
   }, []);
@@ -148,10 +151,18 @@ const HomePage = () => {
             <img src={carruselImage} alt="Imagen de Carrusel" uk-cover="true" />
           </li>
           <li>
-            <img src={carrusel2Image} alt="Imagen de Ejemplo 2" uk-cover="true" />
+            <img
+              src={carrusel2Image}
+              alt="Imagen de Ejemplo 2"
+              uk-cover="true"
+            />
           </li>
           <li>
-            <img src={carrusel3Image} alt="Imagen de Ejemplo 3" uk-cover="true" />
+            <img
+              src={carrusel3Image}
+              alt="Imagen de Ejemplo 3"
+              uk-cover="true"
+            />
           </li>
         </ul>
 
@@ -173,14 +184,14 @@ const HomePage = () => {
       <h2>ROPA</h2>
       <WideCardContainer>
         <WideCard image={mujerImage}>
-           <StyledLink to="/Ropamujer">
-             <span>MUJER</span>
-           </StyledLink>
+          <StyledLink to="/Ropamujer">
+            <span>MUJER</span>
+          </StyledLink>
         </WideCard>
         <WideCard image={hombreImage}>
-           <StyledLink to="/ropa">
-             <span>HOMBRE</span>
-            </StyledLink>
+          <StyledLink to="/ropa">
+            <span>HOMBRE</span>
+          </StyledLink>
         </WideCard>
       </WideCardContainer>
 
@@ -188,19 +199,19 @@ const HomePage = () => {
       <h2>TECNOLOGÍA</h2>
       <TechCardContainer>
         <TechWideCard image={celulares}>
-            <StyledLink to="/Tecnologia">
-             <span>CELULARES</span>
-            </StyledLink>
+          <StyledLink to="/Tecnologia">
+            <span>CELULARES</span>
+          </StyledLink>
         </TechWideCard>
         <TechWideCard image={computadores}>
-             <StyledLink to="/Tecpc">
-             <span>COMPUTADORES</span>
-            </StyledLink>
+          <StyledLink to="/Tecpc">
+            <span>COMPUTADORES</span>
+          </StyledLink>
         </TechWideCard>
         <TechWideCard image={accesorios}>
-            <StyledLink to="/Tecaccesorios">
-             <span>ACCESORIOS</span>
-            </StyledLink>
+          <StyledLink to="/Tecaccesorios">
+            <span>ACCESORIOS</span>
+          </StyledLink>
         </TechWideCard>
       </TechCardContainer>
 
@@ -208,20 +219,19 @@ const HomePage = () => {
       <h2>HOGAR</h2>
       <WideCardContainer>
         <WideCard image={muebles}>
-            <StyledLink to="/HogarPage">
-             <span>MUEBLES</span>
-            </StyledLink>
+          <StyledLink to="/HogarPage">
+            <span>MUEBLES</span>
+          </StyledLink>
         </WideCard>
         <WideCard image={decoracion}>
-            <StyledLink to="/DecoraPage">
-             <span>DECORACION</span>
-            </StyledLink>
+          <StyledLink to="/DecoraPage">
+            <span>DECORACION</span>
+          </StyledLink>
         </WideCard>
         <WideCard image={jardin}>
-            <StyledLink to="/GardenPage">
-             <span>JARDIN</span>
-            </StyledLink>
-          
+          <StyledLink to="/GardenPage">
+            <span>JARDIN</span>
+          </StyledLink>
         </WideCard>
       </WideCardContainer>
 
@@ -229,19 +239,19 @@ const HomePage = () => {
       <h2>DEPORTE</h2>
       <TechCardContainer>
         <TechWideCard image={futbol}>
-            <StyledLink to="/deporte">
-             <span>FUTBOL</span>
-            </StyledLink>
+          <StyledLink to="/deporte">
+            <span>FUTBOL</span>
+          </StyledLink>
         </TechWideCard>
         <TechWideCard image={baloncesto}>
-            <StyledLink to="/BaloncestoPage">
-             <span>BALONCESTO</span>
-            </StyledLink>
+          <StyledLink to="/BaloncestoPage">
+            <span>BALONCESTO</span>
+          </StyledLink>
         </TechWideCard>
         <TechWideCard image={variedad}>
-            <StyledLink to="/VariedadPage">
-             <span>VARIEDAD</span>
-            </StyledLink>
+          <StyledLink to="/VariedadPage">
+            <span>VARIEDAD</span>
+          </StyledLink>
         </TechWideCard>
       </TechCardContainer>
     </HomePageContainer>

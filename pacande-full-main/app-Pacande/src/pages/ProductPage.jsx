@@ -1,87 +1,100 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [editedProduct, setEditedProduct] = useState({});
-  const [openDialog, setOpenDialog] = useState(false);  // Controla la visibilidad del modal
-  const [productToDelete, setProductToDelete] = useState(null);  // Guarda el producto que se va a eliminar
+  const [openDialog, setOpenDialog] = useState(false); // Controla la visibilidad del modal
+  const [productToDelete, setProductToDelete] = useState(null); // Guarda el producto que se va a eliminar
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
+    const rol = localStorage.getItem("rol");
+
     if (!token) {
-      window.location.href = '/login';
+      navigate("/login");
       return;
     }
 
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    if (decodedToken.rol !== 'admin') {
-      window.location.href = '/';
+    if (rol !== "Admin") {
+      navigate("/");
       return;
     }
 
     fetchProducts();
-  }, []);
+  }, [navigate]);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/products/products');
+      const response = await axios.get(
+        "http://localhost:5000/api/products/products"
+      );
       setProducts(response.data.products);
     } catch (error) {
-      console.error('Error al obtener productos:', error);
+      console.error("Error al obtener productos:", error);
     }
   };
 
   const handleDeleteProduct = async () => {
     try {
       if (productToDelete) {
-        await axios.delete(`http://localhost:5000/api/products/products/${productToDelete._id}`);
+        await axios.delete(
+          `http://localhost:5000/api/products/products/${productToDelete._id}`
+        );
         fetchProducts();
-        setOpenDialog(false);  // Cierra el modal después de eliminar
+        setOpenDialog(false); // Cierra el modal después de eliminar
       }
     } catch (error) {
-      console.error('Error al eliminar el producto:', error);
+      console.error("Error al eliminar el producto:", error);
     }
   };
 
   const handleDeleteClick = (product) => {
-    setProductToDelete(product);  // Guarda el producto seleccionado para eliminar
-    setOpenDialog(true);  // Abre el modal de confirmación
+    setProductToDelete(product); // Guarda el producto seleccionado para eliminar
+    setOpenDialog(true); // Abre el modal de confirmación
   };
 
   const handleCloseDialog = () => {
-    setOpenDialog(false);  // Cierra el modal sin eliminar
-    setProductToDelete(null);  // Limpia el producto seleccionado
+    setOpenDialog(false); // Cierra el modal sin eliminar
+    setProductToDelete(null); // Limpia el producto seleccionado
   };
 
   const handleEditClick = (index) => {
     setEditIndex(index);
     setEditedProduct({ ...products[index] });
   };
-  
+
   const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  console.log(`Cambio: ${name} = ${value}`);  // 👈 Agrega este log
-  setEditedProduct((prevProduct) => ({
-    ...prevProduct,
-    [name]: value,
-  }));
-};
-  
+    const { name, value } = e.target;
+    console.log(`Cambio: ${name} = ${value}`); // 👈 Agrega este log
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: value,
+    }));
+  };
+
   const handleSaveEdit = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/products/products/${id}`, editedProduct);
+      await axios.put(
+        `http://localhost:5000/api/products/products/${id}`,
+        editedProduct
+      );
       setEditIndex(null);
       fetchProducts();
     } catch (error) {
-      console.error('Error al guardar los cambios:', error);
+      console.error("Error al guardar los cambios:", error);
     }
   };
-
-  
 
   return (
     <div className="container">
@@ -101,14 +114,17 @@ const ProductPage = () => {
             <th>Descripción</th>
             <th>Precio</th>
             <th>Categoría</th>
-            <th>Subategoría</th>
+            <th>Subcategoría</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {Object.entries(
             products.reduce((acc, product) => {
-              const { category = 'Sin categoría', subcategory = 'Sin subcategoría' } = product;
+              const {
+                category = "Sin categoría",
+                subcategory = "Sin subcategoría",
+              } = product;
               if (!acc[category]) acc[category] = {};
               if (!acc[category][subcategory]) acc[category][subcategory] = [];
               acc[category][subcategory].push(product);
@@ -123,7 +139,9 @@ const ProductPage = () => {
                   </td>
                 </tr>
                 {items.map((product) => {
-                  const realIndex = products.findIndex(p => p._id === product._id);
+                  const realIndex = products.findIndex(
+                    (p) => p._id === product._id
+                  );
                   return (
                     <tr key={product._id}>
                       <td>
@@ -144,18 +162,40 @@ const ProductPage = () => {
                       </td>
                       {editIndex === realIndex ? (
                         <>
-                          <td><input name="name" value={editedProduct.name} onChange={handleInputChange} /></td>
-                          <td><input name="description" value={editedProduct.description} onChange={handleInputChange} /></td>
-                          <td><input name="price" value={editedProduct.price} onChange={handleInputChange} /></td>
                           <td>
-                            <select name="category" value={editedProduct.category} onChange={(e) => {
-                              const selectedCategory = e.target.value;
-                              setEditedProduct((prev) => ({
-                                ...prev,
-                                category: selectedCategory,
-                                subcategory: '', // limpiar subcategoría
-                              }));
-                            }}>
+                            <input
+                              name="name"
+                              value={editedProduct.name}
+                              onChange={handleInputChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              name="description"
+                              value={editedProduct.description}
+                              onChange={handleInputChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              name="price"
+                              value={editedProduct.price}
+                              onChange={handleInputChange}
+                            />
+                          </td>
+                          <td>
+                            <select
+                              name="category"
+                              value={editedProduct.category}
+                              onChange={(e) => {
+                                const selectedCategory = e.target.value;
+                                setEditedProduct((prev) => ({
+                                  ...prev,
+                                  category: selectedCategory,
+                                  subcategory: "", // limpiar subcategoría
+                                }));
+                              }}
+                            >
                               <option value="">Selecciona una categoría</option>
                               <option value="Ropa">Ropa</option>
                               <option value="Tecnología">Tecnología</option>
@@ -169,22 +209,39 @@ const ProductPage = () => {
                               value={editedProduct.subcategory}
                               onChange={handleInputChange}
                             >
-                              <option value="">Selecciona una subcategoría</option>
-                              {editedProduct.category === 'Ropa' && ['Hombre', 'Mujer', 'Niños'].map((s) => (
-                                <option key={s} value={s}>{s}</option>
-                              ))}
-                              {editedProduct.category === 'Tecnología' && ['Computadoras', 'Celulares', 'Accesorios'].map((s) => (
-                                <option key={s} value={s}>{s}</option>
-                              ))}
-                              {editedProduct.category === 'Hogar' && ['Muebles', 'Decoración', 'Jardin'].map((s) => (
-                                <option key={s} value={s}>{s}</option>
-                              ))}
-                              {editedProduct.category === 'Deporte' && ['Fútbol', 'Básquetbol', 'variedad'].map((s) => (
-                                <option key={s} value={s}>{s}</option>
-                              ))}
+                              <option value="">
+                                Selecciona una subcategoría
+                              </option>
+                              {editedProduct.category === "Ropa" &&
+                                ["Hombre", "Mujer", "Niños"].map((s) => (
+                                  <option key={s} value={s}>
+                                    {s}
+                                  </option>
+                                ))}
+                              {editedProduct.category === "Tecnología" &&
+                                ["Computadoras", "Celulares", "Accesorios"].map(
+                                  (s) => (
+                                    <option key={s} value={s}>
+                                      {s}
+                                    </option>
+                                  )
+                                )}
+                              {editedProduct.category === "Hogar" &&
+                                ["Muebles", "Decoración", "Jardin"].map((s) => (
+                                  <option key={s} value={s}>
+                                    {s}
+                                  </option>
+                                ))}
+                              {editedProduct.category === "Deporte" &&
+                                ["Fútbol", "Básquetbol", "variedad"].map(
+                                  (s) => (
+                                    <option key={s} value={s}>
+                                      {s}
+                                    </option>
+                                  )
+                                )}
                             </select>
                           </td>
-
                         </>
                       ) : (
                         <>
@@ -197,11 +254,17 @@ const ProductPage = () => {
                       )}
                       <td className="actions">
                         {editIndex === realIndex ? (
-                          <button onClick={() => handleSaveEdit(product._id)} className="btn success">
+                          <button
+                            onClick={() => handleSaveEdit(product._id)}
+                            className="btn success"
+                          >
                             Guardar
                           </button>
                         ) : (
-                          <button onClick={() => handleEditClick(realIndex)} className="btn warning">
+                          <button
+                            onClick={() => handleEditClick(realIndex)}
+                            className="btn warning"
+                          >
                             Editar
                           </button>
                         )}

@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import Sidebar from '../components/Sidebar';
-import ProductGallery from '../components/ProductGallery';
-import { fetchExchangeRates, convertCurrency } from '../services/CurrencyService';
-import 'uikit/dist/css/uikit.min.css';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import Sidebar from "../components/Sidebar";
+import ProductGallery from "../components/ProductGallery";
+import {
+  fetchExchangeRates,
+  convertCurrency,
+} from "../services/CurrencyService";
+import "uikit/dist/css/uikit.min.css";
 
 // Importar imágenes
-import raquetaTenisImage from '../images/raquetaTenis.jpg';
-import sofaImage from '../images/sofa.jpg';
-import cascoCiclismo2Image from '../images/cascoCiclismo2.jpg';
-import camisetaRojaNinoImage from '../images/CamisetaRojaNino.jpg';
-import regaderaPlasticaImage from '../images/regadera2.jpg';
-import auricularesDeportivosImage from '../images/Auriculares Deportivos.jpg';
+import raquetaTenisImage from "../images/raquetaTenis.jpg";
+import sofaImage from "../images/sofa.jpg";
+import cascoCiclismo2Image from "../images/cascoCiclismo2.jpg";
+import camisetaRojaNinoImage from "../images/CamisetaRojaNino.jpg";
+import regaderaPlasticaImage from "../images/regadera2.jpg";
+import auricularesDeportivosImage from "../images/Auriculares Deportivos.jpg";
 
 // Estilos personalizados
 const Container = styled.div`
@@ -73,42 +76,42 @@ const BannerSubtitle = styled.p`
 // Productos en promoción
 const promoProducts = [
   {
-    title: 'Raqueta de Tenis (Promoción)',
+    title: "Raqueta de Tenis (Promoción)",
     price: 400000,
     image: raquetaTenisImage,
   },
   {
-    title: 'Sofá Moderno',
+    title: "Sofá Moderno",
     price: 1200000,
-    specs: ['Material: Tela', 'Color: Gris', 'Dimensiones: 200x90x85 cm'],
-    category: 'Muebles',
+    specs: ["Material: Tela", "Color: Gris", "Dimensiones: 200x90x85 cm"],
+    category: "Muebles",
     promo: true,
     image: sofaImage,
   },
   {
-    title: 'Casco de Ciclismo Profesional',
+    title: "Casco de Ciclismo Profesional",
     price: 280000,
     image: cascoCiclismo2Image,
   },
   {
-    title: 'Camiseta Roja Niño', 
+    title: "Camiseta Roja Niño",
     price: 50000,
     image: camisetaRojaNinoImage,
   },
   {
-    title: 'Regadera Plástica',
+    title: "Regadera Plástica",
     price: 30000,
     image: regaderaPlasticaImage,
   },
   {
-    title: 'Auriculares Deportivos',
+    title: "Auriculares Deportivos",
     price: 150000,
     image: auricularesDeportivosImage,
   },
 ];
 
 const OfertaPage = () => {
-  const [currency, setCurrency] = useState('COP');
+  const [currency, setCurrency] = useState("COP");
   const [exchangeRates, setExchangeRates] = useState({});
   const [filteredPromos, setFilteredPromos] = useState(promoProducts);
 
@@ -123,10 +126,10 @@ const OfertaPage = () => {
   }, []);
 
   const convertPrice = (price) => {
-    if (currency === 'COP') return price;
-    if (currency === 'MXN') return convertCurrency(price, exchangeRates['MXN']);
-    if (currency === 'USD') return convertCurrency(price, exchangeRates['USD']);
-    if (currency === 'EUR') return convertCurrency(price, exchangeRates['EUR']);
+    if (currency === "COP") return price;
+    if (currency === "MXN") return convertCurrency(price, exchangeRates["MXN"]);
+    if (currency === "USD") return convertCurrency(price, exchangeRates["USD"]);
+    if (currency === "EUR") return convertCurrency(price, exchangeRates["EUR"]);
     return price;
   };
 

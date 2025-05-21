@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; 
-import { FaUser, FaShoppingCart } from 'react-icons/fa';
-import styled from '@emotion/styled';
-import 'uikit/dist/css/uikit.min.css'; 
-import logo from '../images/logopaca.png';
-import LoginModal from './LoginModal'; 
-import Tooltip from './Tooltip'; 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FaUser, FaShoppingCart } from "react-icons/fa";
+import styled from "@emotion/styled";
+import "uikit/dist/css/uikit.min.css";
+import logo from "../images/logopaca.png";
+import LoginModal from "./LoginModal";
+import Tooltip from "./Tooltip";
 
 const NavbarContainer = styled.nav`
-  background-color: #000000; 
+  background-color: #000000;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   width: 100%;
   height: auto;
@@ -21,7 +21,7 @@ const NavbarContainer = styled.nav`
 const NavbarRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   padding: 0 1rem;
   transition: opacity 0.6s ease, transform 0.6s ease;
 `;
@@ -29,7 +29,7 @@ const NavbarRow = styled.div`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  color: #fff; 
+  color: #fff;
   margin-right: 1rem;
 `;
 
@@ -39,19 +39,19 @@ const Logo = styled.img`
 `;
 
 const BrandName = styled(Link)`
-  font-size: 24px; 
-  font-weight: bold; 
-  color: #fff; 
-  text-decoration: none; 
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
 
   &:hover {
-    color: #fff; 
-    text-decoration: none; 
+    color: #fff;
+    text-decoration: none;
   }
 `;
 
 const HighlightedLetter = styled.span`
-  color: #ff0000; 
+  color: #ff0000;
 `;
 
 const SearchContainer = styled.div`
@@ -63,15 +63,15 @@ const SearchContainer = styled.div`
   input {
     border-radius: 20px;
     padding: 0.5rem;
-    border: 1.5px solid #FF0000; 
+    border: 1.5px solid #ff0000;
     width: 450px;
     height: 20px;
     margin-left: 0.5rem;
-    background-color: #E5E5E5; 
+    background-color: #e5e5e5;
     outline: none;
 
     &:focus {
-      border-color: #FF0000;
+      border-color: #ff0000;
     }
   }
 `;
@@ -83,7 +83,7 @@ const ButtonContainer = styled.div`
 
   svg {
     margin: 0 10px;
-    color: #fff; 
+    color: #fff;
     border-radius: 30%;
     padding: 5px;
     height: 35px;
@@ -91,7 +91,7 @@ const ButtonContainer = styled.div`
     transition: color 0.3s ease;
 
     &:hover {
-      color: #FF0000; 
+      color: #ff0000;
     }
   }
 `;
@@ -113,33 +113,33 @@ const DropdownButton = styled.button`
   position: relative;
 
   &:hover {
-    color: #FF0000;
+    color: #ff0000;
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     bottom: 0;
     height: 2px;
     width: 100%;
-    background-color: #FF0000;
+    background-color: #ff0000;
     transform: scaleX(0);
     transition: transform 0.5s ease;
   }
 
   &:hover::after {
-    transform: scaleX(1); 
+    transform: scaleX(1);
   }
 `;
 
 const DropdownMenu = styled.div`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
-  position: absolute; 
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  position: absolute;
   background-color: #000000;
-  border: 1px solid #FF0000;
+  border: 1px solid #ff0000;
   border-radius: 10px;
-  top: 100%; 
+  top: 100%;
   left: 0;
   margin-top: 5px;
   width: 150px;
@@ -151,7 +151,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    color: #FF0000;
+    color: #ff0000;
     text-decoration: none;
   }
 `;
@@ -160,24 +160,24 @@ const MenuItem = styled(Link)`
   display: block;
   padding: 10px;
   color: #fff;
-  text-decoration: none; 
-  background-color: transparent; 
+  text-decoration: none;
+  background-color: transparent;
   cursor: pointer;
 
   &:hover {
-    background-color: #FF0000; 
-    color: #fff; 
-    text-decoration: none; 
+    background-color: #ff0000;
+    color: #fff;
+    text-decoration: none;
   }
 `;
 
 const DropdownUserMenu = styled.div`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   position: absolute;
   background-color: #000000;
-  border: 1px solid #FF0000;
+  border: 1px solid #ff0000;
   border-radius: 10px;
-  top: 100%; 
+  top: 100%;
   right: 0;
   margin-top: -70px;
   width: 200px;
@@ -187,14 +187,14 @@ const DropdownUserMenu = styled.div`
 const UserMenuItem = styled.div`
   padding: 10px;
   color: #fff;
-  text-decoration: none; 
-  background-color: transparent; 
+  text-decoration: none;
+  background-color: transparent;
   cursor: pointer;
 
   &:hover {
-    background-color: #FF0000; 
-    color: #fff; 
-    text-decoration: none; 
+    background-color: #ff0000;
+    color: #fff;
+    text-decoration: none;
   }
 `;
 
@@ -204,19 +204,19 @@ const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); 
-  const [nombreUsuario, setNombreUsuario] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [nombreUsuario, setNombreUsuario] = useState("");
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [rol, setRol] = useState(null); // ✅ ¡Agregado para corregir el error!
+  const [rol, setRol] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const nombre = localStorage.getItem('nombre');
-    const rolUsuario = localStorage.getItem('rol');
+    const token = localStorage.getItem("token");
+    const nombre = localStorage.getItem("nombre");
+    const rolUsuario = localStorage.getItem("rol");
     if (token) {
       setIsAuthenticated(true);
       setNombreUsuario(nombre);
-      setRol(rolUsuario); // ✅ Actualiza el estado con el rol
+      setRol(rolUsuario);
     }
   }, []);
 
@@ -231,10 +231,12 @@ const Navbar = () => {
   const handleUserClick = () => {
     if (isAuthenticated) {
       setIsAuthenticated(false);
-      localStorage.removeItem('token');
-      localStorage.removeItem('nombre');
-      localStorage.removeItem('rol');
-      setRol(null); // Limpiar el rol al cerrar sesión
+      localStorage.removeItem("token");
+      localStorage.removeItem("nombre");
+      localStorage.removeItem("rol");
+      localStorage.removeItem("userId");
+      setRol(null);
+      window.location.href = "/";
     } else {
       setShowLogin(true);
     }
@@ -253,9 +255,12 @@ const Navbar = () => {
       <NavbarRow
         style={{
           opacity: showSearchRow || isScrollingUp ? 1 : 0,
-          transform: showSearchRow || isScrollingUp ? 'translateY(0)' : 'translateY(-100%)',
-          height: showSearchRow || isScrollingUp ? 'auto' : '0',
-          overflow: 'hidden'
+          transform:
+            showSearchRow || isScrollingUp
+              ? "translateY(0)"
+              : "translateY(-100%)",
+          height: showSearchRow || isScrollingUp ? "auto" : "0",
+          overflow: "hidden",
         }}
       >
         <div className="uk-navbar-left">
@@ -267,19 +272,21 @@ const Navbar = () => {
           </LogoContainer>
         </div>
         <SearchContainer>
-          <span uk-icon="icon: search" style={{ color: '#fff' }}></span>
+          <span uk-icon="icon: search" style={{ color: "#fff" }}></span>
           <input type="text" placeholder="Buscar..." />
         </SearchContainer>
         <ButtonContainer>
-          <Tooltip text={isAuthenticated ? "Cerrar sesión" : "Iniciar sesión"}>
+          <Tooltip
+            text={isAuthenticated ? "Menú de usuario" : "Iniciar sesión"}
+          >
             {isAuthenticated ? (
               <span
                 onClick={toggleUserMenu}
                 style={{
-                  color: '#fff',
-                  cursor: 'pointer',
-                  fontWeight: 'bold',
-                  padding: '5px 10px',
+                  color: "#fff",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  padding: "5px 10px",
                 }}
               >
                 Hola, {nombreUsuario}
@@ -288,40 +295,67 @@ const Navbar = () => {
               <FaUser size={24} onClick={handleUserClick} />
             )}
           </Tooltip>
+
           <Tooltip text="Carrito de compras">
-            <FaShoppingCart size={24} />
+            <Link to="/carrito">
+              <FaShoppingCart size={24} />
+            </Link>
           </Tooltip>
         </ButtonContainer>
       </NavbarRow>
 
       {userMenuOpen && (
         <DropdownUserMenu isOpen={userMenuOpen}>
-          <UserMenuItem onClick={() => {
-            handleUserClick();
-            toggleUserMenu();
-          }}>Cerrar sesión</UserMenuItem>
-          <UserMenuItem onClick={() => {
-            toggleUserMenu();
-            window.location.href = '/perfil';
-          }}>Perfil</UserMenuItem>
+          <UserMenuItem
+            onClick={() => {
+              toggleUserMenu();
+              window.location.href = "/mis-envios";
+            }}
+          >
+            Mis envíos
+          </UserMenuItem>
+          <UserMenuItem
+            onClick={() => {
+              toggleUserMenu();
+              window.location.href = "/perfil";
+            }}
+          >
+            Perfil
+          </UserMenuItem>
+          <UserMenuItem
+            onClick={() => {
+              handleUserClick();
+              toggleUserMenu();
+            }}
+          >
+            Cerrar sesión
+          </UserMenuItem>
         </DropdownUserMenu>
       )}
 
       <NavbarRow
         style={{
-          backgroundColor: scrolling ? 'rgba(0, 0, 0, 1)' : '#000000',
-          padding: '10px 0',
-          borderRadius: '0',
-          opacity: scrolling ? 1 : 1
+          backgroundColor: scrolling ? "rgba(0, 0, 0, 1)" : "#000000",
+          padding: "10px 0",
+          borderRadius: "0",
+          opacity: scrolling ? 1 : 1,
         }}
       >
         <DropdownButtonContainer>
           <DropdownButton onClick={toggleDropdown}>Categorías</DropdownButton>
           <DropdownMenu isOpen={dropdownOpen}>
-            <MenuItem to="/ropa" onClick={() => setDropdownOpen(false)}>Ropa</MenuItem>
-            <MenuItem to="/tecnologia" onClick={() => setDropdownOpen(false)}>Tecnología</MenuItem>
-            <MenuItem to="/hogar" onClick={() => setDropdownOpen(false)}>Hogar</MenuItem>
-            <MenuItem to="/deporte" onClick={() => setDropdownOpen(false)}>Deporte</MenuItem>
+            <MenuItem to="/ropa" onClick={() => setDropdownOpen(false)}>
+              Ropa
+            </MenuItem>
+            <MenuItem to="/tecnologia" onClick={() => setDropdownOpen(false)}>
+              Tecnología
+            </MenuItem>
+            <MenuItem to="/hogar" onClick={() => setDropdownOpen(false)}>
+              Hogar
+            </MenuItem>
+            <MenuItem to="/deporte" onClick={() => setDropdownOpen(false)}>
+              Deporte
+            </MenuItem>
           </DropdownMenu>
         </DropdownButtonContainer>
 
@@ -329,7 +363,7 @@ const Navbar = () => {
           <StyledLink to="/">Ofertas</StyledLink>
         </DropdownButton>
 
-        {rol === 'admin' && (
+        {rol === "Admin" && (
           <>
             <DropdownButton>
               <StyledLink to="/admin">Usuarios</StyledLink>

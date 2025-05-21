@@ -1,6 +1,6 @@
 // src/pages/ErrorPage.js
-import React from 'react';
-import styled from '@emotion/styled';
+import React from "react";
+import styled from "@emotion/styled";
 
 const ErrorContainer = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const ErrorContainer = styled.div`
 
 const ErrorCode = styled.h1`
   font-size: 100px;
-  color: #FF0000; /* Rojo */
+  color: #ff0000; /* Rojo */
 `;
 
 const ErrorMessage = styled.h2`

@@ -36,7 +36,10 @@ import Tecnologiaaccesorios from "./pages/Tecnologiaaccesorios";
 import OfertaPage from "./pages/OfertasPage";
 import ProductPage from "./pages/ProductPage";
 import CreateProductPage from "./pages/CreateProductPage";
-import ShipmentList from "./components/ShipmentList";
+import CartPage from "./pages/CartPage";
+import MisEnviosPage from "./pages/MisEnviosPage";
+import AdminEnviosPage from "./pages/AdminEnviosPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Estilos para la pantalla de carga
 const LoaderContainer = styled.div`
@@ -127,14 +130,15 @@ const AppContent = () => {
         {/* Ruta para OfertaPage */}
         <Route path="*" element={<ErrorPage />} />
         <Route path="/perfil" element={<PerfilPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route
-          path="/admin/actualizar-usuario/:id"
-          element={<ActualizarUsuarioPage />}
-        />
-        <Route path="/products" element={<ProductPage />} />
-        <Route path="/create-product" element={<CreateProductPage />} />{" "}
-        {/* Asegúrate de que el "element" esté correctamente asignado */}
+        <Route path="/carrito" element={<CartPage />} />
+        
+        {/* Rutas protegidas de administrador */}
+        <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+        <Route path="/admin/actualizar-usuario/:id" element={<ProtectedRoute><ActualizarUsuarioPage /></ProtectedRoute>} />
+        <Route path="/products" element={<ProtectedRoute><ProductPage /></ProtectedRoute>} />
+        <Route path="/create-product" element={<ProtectedRoute><CreateProductPage /></ProtectedRoute>} />
+        <Route path="/mis-envios" element={<MisEnviosPage />} />
+        <Route path="/admin/envios" element={<ProtectedRoute><AdminEnviosPage /></ProtectedRoute>} />
       </Routes>
       <Footer />
       <ToastContainer position="top-center" autoClose={3000} />

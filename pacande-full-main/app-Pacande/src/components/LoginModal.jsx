@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
-import { toast } from 'react-toastify';
-import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
-import { registerUser, loginUser } from '../services/authService'; // Asegúrate que la ruta sea correcta
+import React, { useState } from "react";
+import styled from "@emotion/styled";
+import { toast } from "react-toastify";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { registerUser, loginUser } from "../services/authService"; // Asegúrate que la ruta sea correcta
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -53,16 +53,16 @@ const InputContainer = styled.div`
 
   &:hover {
     input {
-      border-color: #FF0000;
-      color: #FF0000;
+      border-color: #ff0000;
+      color: #ff0000;
     }
 
     input::placeholder {
-      color: #FF0000;
+      color: #ff0000;
     }
 
     svg {
-      color: #FF0000;
+      color: #ff0000;
     }
   }
 `;
@@ -93,7 +93,7 @@ const Input = styled.input`
 const Button = styled.button`
   width: 50%;
   padding: 0.75rem;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -103,17 +103,17 @@ const Button = styled.button`
   border: 1px solid #fff;
 
   &:hover {
-    background-color: #CC0000;
+    background-color: #cc0000;
   }
 `;
 
 const ToggleLink = styled.p`
   margin-top: 1rem;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 0.9rem;
 
   a {
-    color: #FF0000;
+    color: #ff0000;
     text-decoration: none;
     font-weight: bold;
     cursor: pointer;
@@ -126,9 +126,9 @@ const ToggleLink = styled.p`
 
 const LoginModal = ({ onClose }) => {
   const [showRegister, setShowRegister] = useState(false);
-  const [nombreCompleto, setNombreCompleto] = useState('');
-  const [correo, setCorreo] = useState('');  // Cambio de 'email' a 'correo'
-  const [contraseña, setContraseña] = useState(''); // Cambio de 'password' a 'contraseña'
+  const [nombreCompleto, setNombreCompleto] = useState("");
+  const [correo, setCorreo] = useState(""); // Cambio de 'email' a 'correo'
+  const [contraseña, setContraseña] = useState(""); // Cambio de 'password' a 'contraseña'
 
   const toggleForm = () => {
     setShowRegister(!showRegister);
@@ -141,27 +141,30 @@ const LoginModal = ({ onClose }) => {
       if (showRegister) {
         await registerUser({
           nombre: nombreCompleto,
-          correo,  // Enviar 'correo' en lugar de 'email'
-          contraseña,  // Enviar 'contraseña' en lugar de 'password'
+          correo, // Enviar 'correo' en lugar de 'email'
+          contraseña, // Enviar 'contraseña' en lugar de 'password'
         });
-        toast.success('✅ Registro exitoso');
+        toast.success("✅ Registro exitoso");
         setShowRegister(false); // Cambia al formulario de login
-        setNombreCompleto('');
-        setCorreo('');
-        setContraseña('');
+        setNombreCompleto("");
+        setCorreo("");
+        setContraseña("");
       } else {
         const data = await loginUser({
-          correo,  // Enviar 'correo' en lugar de 'email'
-          contraseña,  // Enviar 'contraseña' en lugar de 'password'
+          correo,
+          contraseña,
         });
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('nombre', data.usuario.nombre);
-        localStorage.setItem('rol', data.usuario.rol);
-        toast.success('✅ Inicio de sesión exitoso');
+        console.log("Respuesta del login:", data); // Para depuración
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("nombre", data.usuario.nombre);
+        localStorage.setItem("rol", data.usuario.rol);
+        localStorage.setItem("userId", data.usuario.id); // Cambiado de _id a id
+        toast.success("✅ Inicio de sesión exitoso");
+        console.log("ID de usuario guardado:", data.usuario.id); // Para depuración
         setTimeout(() => {
-          onClose(); // Cierra el modal
-          window.location.reload(); // Recarga después de 2 segundos
-        }, 2000); // 🔄 Recarga la página
+          onClose();
+          window.location.reload();
+        }, 2000);
       }
     } catch (err) {
       toast.error(`❌ Error: ${err.message}`);
@@ -177,7 +180,9 @@ const LoginModal = ({ onClose }) => {
             <Title>Crear Cuenta</Title>
             <form onSubmit={handleSubmit}>
               <InputContainer>
-                <InputIcon><FaUser /></InputIcon>
+                <InputIcon>
+                  <FaUser />
+                </InputIcon>
                 <Input
                   type="text"
                   placeholder="Nombre Completo"
@@ -187,7 +192,9 @@ const LoginModal = ({ onClose }) => {
                 />
               </InputContainer>
               <InputContainer>
-                <InputIcon><FaEnvelope /></InputIcon>
+                <InputIcon>
+                  <FaEnvelope />
+                </InputIcon>
                 <Input
                   type="email"
                   placeholder="Correo Electrónico"
@@ -197,7 +204,9 @@ const LoginModal = ({ onClose }) => {
                 />
               </InputContainer>
               <InputContainer>
-                <InputIcon><FaLock /></InputIcon>
+                <InputIcon>
+                  <FaLock />
+                </InputIcon>
                 <Input
                   type="password"
                   placeholder="Contraseña"
@@ -217,7 +226,9 @@ const LoginModal = ({ onClose }) => {
             <Title>Iniciar Sesión</Title>
             <form onSubmit={handleSubmit}>
               <InputContainer>
-                <InputIcon><FaEnvelope /></InputIcon>
+                <InputIcon>
+                  <FaEnvelope />
+                </InputIcon>
                 <Input
                   type="email"
                   placeholder="Correo Electrónico"
@@ -227,7 +238,9 @@ const LoginModal = ({ onClose }) => {
                 />
               </InputContainer>
               <InputContainer>
-                <InputIcon><FaLock /></InputIcon>
+                <InputIcon>
+                  <FaLock />
+                </InputIcon>
                 <Input
                   type="password"
                   placeholder="Contraseña"

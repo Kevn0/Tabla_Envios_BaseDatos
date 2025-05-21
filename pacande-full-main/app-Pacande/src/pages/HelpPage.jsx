@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import 'uikit/dist/css/uikit.min.css';
-import UIkit from 'uikit';
+import React from "react";
+import styled from "@emotion/styled";
+import "uikit/dist/css/uikit.min.css";
+import UIkit from "uikit";
 
 const HelpContainer = styled.div`
   background-color: #ffffff;
@@ -54,8 +54,6 @@ const Accordion = styled.div`
       background-color: #ff0000; /* Color de fondo en hover */
       color: #ffffff; /* Texto en blanco cuando está en hover */
     }
-
-    
   }
 
   .uk-accordion-content {
@@ -87,7 +85,7 @@ const InnerAccordion = styled.div`
       color: #ffffff; /* Texto en blanco cuando está en hover */
     }
 
-     &:focus {
+    &:focus {
       background-color: #ff000; /* Color de fondo más oscuro en hover */
       color: #ffffff; /* Texto en blanco cuando está en hover */
     }
@@ -113,37 +111,69 @@ const HelpPage = () => {
       <SubTitle>Encuentra respuestas a las preguntas más comunes</SubTitle>
 
       <HelpContent>
-        <p>Bienvenido a nuestra página de Ayuda. Aquí podrás encontrar información detallada sobre cómo utilizar nuestro sitio web y solucionar problemas comunes. Si tienes alguna otra duda, no dudes en contactarnos.</p>
-        
+        <p>
+          Bienvenido a nuestra página de Ayuda. Aquí podrás encontrar
+          información detallada sobre cómo utilizar nuestro sitio web y
+          solucionar problemas comunes. Si tienes alguna otra duda, no dudes en
+          contactarnos.
+        </p>
+
         <h3>Guía rápida:</h3>
         <ul>
-          <li>Compra productos fácilmente siguiendo los pasos de nuestro proceso de compra.</li>
+          <li>
+            Compra productos fácilmente siguiendo los pasos de nuestro proceso
+            de compra.
+          </li>
           <li>Realiza pagos seguros con diferentes métodos de pago.</li>
-          <li>Consulta nuestra política de devoluciones para más información sobre cambios o reembolsos.</li>
+          <li>
+            Consulta nuestra política de devoluciones para más información sobre
+            cambios o reembolsos.
+          </li>
           <li>Accede a tu cuenta para ver el estado de tus pedidos.</li>
         </ul>
-        
-        <p>Navega por las preguntas más frecuentes a continuación para obtener más detalles sobre los temas más consultados.</p>
+
+        <p>
+          Navega por las preguntas más frecuentes a continuación para obtener
+          más detalles sobre los temas más consultados.
+        </p>
       </HelpContent>
 
       <Accordion>
         <ul uk-accordion="multiple: true">
           <li>
-            <a className="uk-accordion-title" href="#">¿Cómo puedo comprar en la página?</a>
+            <a className="uk-accordion-title" href="#">
+              ¿Cómo puedo comprar en la página?
+            </a>
             <div className="uk-accordion-content">
-              <p>Para comprar en nuestra página, selecciona los productos que desees y agréguelos a tu carrito. Luego, sigue los pasos del proceso de pago.</p>
+              <p>
+                Para comprar en nuestra página, selecciona los productos que
+                desees y agréguelos a tu carrito. Luego, sigue los pasos del
+                proceso de pago.
+              </p>
               <InnerAccordion>
                 <ul uk-accordion="multiple: true">
                   <li>
-                    <a className="uk-accordion-title" href="#">¿Qué pasa si tengo problemas durante el proceso de compra?</a>
+                    <a className="uk-accordion-title" href="#">
+                      ¿Qué pasa si tengo problemas durante el proceso de compra?
+                    </a>
                     <div className="uk-accordion-content">
-                      <p>Si experimentas problemas, asegúrate de que tu conexión a internet sea estable. Si el problema persiste, contáctanos a través de nuestro formulario de contacto.</p>
+                      <p>
+                        Si experimentas problemas, asegúrate de que tu conexión
+                        a internet sea estable. Si el problema persiste,
+                        contáctanos a través de nuestro formulario de contacto.
+                      </p>
                     </div>
                   </li>
                   <li>
-                    <a className="uk-accordion-title" href="#">¿Puedo modificar mi pedido después de haberlo realizado?</a>
+                    <a className="uk-accordion-title" href="#">
+                      ¿Puedo modificar mi pedido después de haberlo realizado?
+                    </a>
                     <div className="uk-accordion-content">
-                      <p>Una vez que tu pedido ha sido confirmado, no podrás modificarlo. Sin embargo, puedes cancelar tu pedido y realizar uno nuevo si es necesario.</p>
+                      <p>
+                        Una vez que tu pedido ha sido confirmado, no podrás
+                        modificarlo. Sin embargo, puedes cancelar tu pedido y
+                        realizar uno nuevo si es necesario.
+                      </p>
                     </div>
                   </li>
                 </ul>
@@ -151,21 +181,40 @@ const HelpPage = () => {
             </div>
           </li>
           <li>
-            <a className="uk-accordion-title" href="#">¿Qué métodos de pago aceptan?</a>
+            <a className="uk-accordion-title" href="#">
+              ¿Qué métodos de pago aceptan?
+            </a>
             <div className="uk-accordion-content">
-              <p>Aceptamos tarjetas de crédito, débito y pagos por PayPal. También ofrecemos la opción de pagar mediante transferencias bancarias.</p>
+              <p>
+                Aceptamos tarjetas de crédito, débito y pagos por PayPal.
+                También ofrecemos la opción de pagar mediante transferencias
+                bancarias.
+              </p>
               <InnerAccordion>
                 <ul uk-accordion="multiple: true">
                   <li>
-                    <a className="uk-accordion-title" href="#">¿Qué hago si mi pago no se procesa?</a>
+                    <a className="uk-accordion-title" href="#">
+                      ¿Qué hago si mi pago no se procesa?
+                    </a>
                     <div className="uk-accordion-content">
-                      <p>Si tu pago no se procesa, verifica que los detalles de tu tarjeta sean correctos y que tengas fondos suficientes. Si el problema persiste, contacta a tu banco.</p>
+                      <p>
+                        Si tu pago no se procesa, verifica que los detalles de
+                        tu tarjeta sean correctos y que tengas fondos
+                        suficientes. Si el problema persiste, contacta a tu
+                        banco.
+                      </p>
                     </div>
                   </li>
                   <li>
-                    <a className="uk-accordion-title" href="#">¿Es seguro pagar en su página?</a>
+                    <a className="uk-accordion-title" href="#">
+                      ¿Es seguro pagar en su página?
+                    </a>
                     <div className="uk-accordion-content">
-                      <p>Sí, utilizamos protocolos de seguridad avanzados para proteger tu información personal y financiera durante el proceso de pago.</p>
+                      <p>
+                        Sí, utilizamos protocolos de seguridad avanzados para
+                        proteger tu información personal y financiera durante el
+                        proceso de pago.
+                      </p>
                     </div>
                   </li>
                 </ul>
@@ -173,15 +222,26 @@ const HelpPage = () => {
             </div>
           </li>
           <li>
-            <a className="uk-accordion-title" href="#">¿Cómo hago seguimiento a mi pedido?</a>
+            <a className="uk-accordion-title" href="#">
+              ¿Cómo hago seguimiento a mi pedido?
+            </a>
             <div className="uk-accordion-content">
-              <p>Después de realizar tu pedido, recibirás un correo electrónico con un enlace para rastrear el estado de tu compra.</p>
+              <p>
+                Después de realizar tu pedido, recibirás un correo electrónico
+                con un enlace para rastrear el estado de tu compra.
+              </p>
               <InnerAccordion>
                 <ul uk-accordion="multiple: true">
                   <li>
-                    <a className="uk-accordion-title" href="#">¿Qué debo hacer si no recibo el correo de seguimiento?</a>
+                    <a className="uk-accordion-title" href="#">
+                      ¿Qué debo hacer si no recibo el correo de seguimiento?
+                    </a>
                     <div className="uk-accordion-content">
-                      <p>Si no recibes el correo de seguimiento, revisa tu carpeta de spam. Si no lo encuentras, contáctanos para que podamos ayudarte.</p>
+                      <p>
+                        Si no recibes el correo de seguimiento, revisa tu
+                        carpeta de spam. Si no lo encuentras, contáctanos para
+                        que podamos ayudarte.
+                      </p>
                     </div>
                   </li>
                 </ul>
@@ -189,21 +249,38 @@ const HelpPage = () => {
             </div>
           </li>
           <li>
-            <a className="uk-accordion-title" href="#">¿Cuál es la política de devoluciones?</a>
+            <a className="uk-accordion-title" href="#">
+              ¿Cuál es la política de devoluciones?
+            </a>
             <div className="uk-accordion-content">
-              <p>Puedes devolver los productos en un plazo de 30 días después de la compra, siempre y cuando se encuentren en su estado original.</p>
+              <p>
+                Puedes devolver los productos en un plazo de 30 días después de
+                la compra, siempre y cuando se encuentren en su estado original.
+              </p>
               <InnerAccordion>
                 <ul uk-accordion="multiple: true">
                   <li>
-                    <a className="uk-accordion-title" href="#">¿Cómo inicio una devolución?</a>
+                    <a className="uk-accordion-title" href="#">
+                      ¿Cómo inicio una devolución?
+                    </a>
                     <div className="uk-accordion-content">
-                      <p>Para iniciar una devolución, visita nuestra sección de devoluciones en el sitio web y completa el formulario correspondiente.</p>
+                      <p>
+                        Para iniciar una devolución, visita nuestra sección de
+                        devoluciones en el sitio web y completa el formulario
+                        correspondiente.
+                      </p>
                     </div>
                   </li>
                   <li>
-                    <a className="uk-accordion-title" href="#">¿Los gastos de envío son reembolsables?</a>
+                    <a className="uk-accordion-title" href="#">
+                      ¿Los gastos de envío son reembolsables?
+                    </a>
                     <div className="uk-accordion-content">
-                      <p>No, los gastos de envío no son reembolsables, a menos que el producto esté defectuoso o haya un error en el envío.</p>
+                      <p>
+                        No, los gastos de envío no son reembolsables, a menos
+                        que el producto esté defectuoso o haya un error en el
+                        envío.
+                      </p>
                     </div>
                   </li>
                 </ul>

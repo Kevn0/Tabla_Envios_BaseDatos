@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import 'uikit/dist/css/uikit.min.css';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "@emotion/styled";
+import "uikit/dist/css/uikit.min.css";
+import { Link } from "react-router-dom";
 
 const PrivacyContainer = styled.div`
   background-color: #ffffff;
@@ -50,27 +50,50 @@ const PrivacyPage = () => {
 
       <Section>
         <SectionTitle>1. Introducción</SectionTitle>
-        <p>En nuestra página, la privacidad de nuestros usuarios es de suma importancia. Esta política explica cómo recopilamos, usamos y protegemos la información personal que proporcionas al usar nuestro sitio.</p>
+        <p>
+          En nuestra página, la privacidad de nuestros usuarios es de suma
+          importancia. Esta política explica cómo recopilamos, usamos y
+          protegemos la información personal que proporcionas al usar nuestro
+          sitio.
+        </p>
       </Section>
 
       <Section>
         <SectionTitle>2. Información que Recopilamos</SectionTitle>
-        <p>Recopilamos información personal cuando te registras en nuestro sitio, realizas un pedido o interactúas con nosotros. Esta información puede incluir tu nombre, dirección de correo electrónico, dirección de envío y detalles de pago.</p>
+        <p>
+          Recopilamos información personal cuando te registras en nuestro sitio,
+          realizas un pedido o interactúas con nosotros. Esta información puede
+          incluir tu nombre, dirección de correo electrónico, dirección de envío
+          y detalles de pago.
+        </p>
       </Section>
 
       <Section>
         <SectionTitle>3. Uso de la Información</SectionTitle>
-        <p>Utilizamos la información recopilada para procesar tus pedidos, mejorar nuestro sitio y comunicarnos contigo sobre tus pedidos y ofertas especiales.</p>
+        <p>
+          Utilizamos la información recopilada para procesar tus pedidos,
+          mejorar nuestro sitio y comunicarnos contigo sobre tus pedidos y
+          ofertas especiales.
+        </p>
       </Section>
 
       <Section>
         <SectionTitle>4. Protección de la Información</SectionTitle>
-        <p>Tomamos medidas de seguridad adecuadas para proteger tu información personal contra accesos no autorizados, alteraciones o destrucción.</p>
+        <p>
+          Tomamos medidas de seguridad adecuadas para proteger tu información
+          personal contra accesos no autorizados, alteraciones o destrucción.
+        </p>
       </Section>
 
       <Section>
-        <SectionTitle>5. Cambios en Nuestra Política de Privacidad</SectionTitle>
-        <p>Podemos actualizar esta política de privacidad de vez en cuando. Te notificaremos sobre cualquier cambio publicando la nueva política en esta página.</p>
+        <SectionTitle>
+          5. Cambios en Nuestra Política de Privacidad
+        </SectionTitle>
+        <p>
+          Podemos actualizar esta política de privacidad de vez en cuando. Te
+          notificaremos sobre cualquier cambio publicando la nueva política en
+          esta página.
+        </p>
       </Section>
 
       <ContactLink to="/contact">Contáctanos</ContactLink>
