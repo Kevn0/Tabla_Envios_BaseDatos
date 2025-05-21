@@ -125,8 +125,8 @@ const ActualizarUsuarioPage = () => {
               value={rol}
               onChange={(e) => setRol(e.target.value)}
             >
-              <MenuItem value="usuario">Usuario</MenuItem>
-              <MenuItem value="admin">Administrador</MenuItem>
+              <MenuItem value="Usuario">Usuario</MenuItem>
+              <MenuItem value="Admin">Administrador</MenuItem>
             </Select>
           </FormControl>
         </Box>
