@@ -8,28 +8,33 @@ import {
   Box,
   Typography,
   CircularProgress,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
   Container,
+  Alert,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const ActualizarUsuarioPage = () => {
-  const { id } = useParams(); // Extraemos el ID de los parámetros de la URL
+  const { id } = useParams();
   const [usuario, setUsuario] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(id !== "new");
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
-  const [rol, setRol] = useState("");
   const [contraseña, setContraseña] = useState("");
-  const [error, setError] = useState("");
+  const [rol, setRol] = useState("Usuario");
   const navigate = useNavigate();
+  const isNewUser = id === "new";
 
   useEffect(() => {
     const obtenerUsuario = async () => {
+      if (isNewUser) {
+        setLoading(false);
+        return;
+      }
+
       try {
-        console.log("ID del usuario:", id);
         const response = await axios.get(
           `http://localhost:5000/api/admin/usuarios/${id}`,
           {
@@ -38,64 +43,99 @@ const ActualizarUsuarioPage = () => {
             },
           }
         );
+        
+        // Si el usuario es admin, redirigir al panel de administración
+        if (response.data.rol === "Admin" && localStorage.getItem("rol") !== "Superadmin") {
+          toast.error("No se pueden modificar administradores");
+          navigate("/admin");
+          return;
+        }
+
         setUsuario(response.data);
         setNombre(response.data.nombre);
         setCorreo(response.data.correo);
         setRol(response.data.rol);
       } catch (error) {
         console.error("Error al obtener el usuario:", error);
-        alert("No se pudo obtener el usuario");
+        toast.error("No se pudo obtener el usuario");
         navigate("/admin");
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      obtenerUsuario();
-    }
-  }, [id, navigate]);
+    obtenerUsuario();
+  }, [id, navigate, isNewUser]);
 
-  // Función para manejar el submit del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!nombre || !correo || (isNewUser && !contraseña)) {
+      toast.error("Por favor complete todos los campos obligatorios");
+      return;
+    }
+
     try {
-      const updatedUser = {
+      const userData = {
         nombre,
         correo,
         rol,
-        ...(contraseña && { contraseña }), // Solo agregamos la contraseña si está presente
+        ...(contraseña && { contraseña })
       };
 
-      const response = await axios.put(
-        `http://localhost:5000/api/admin/usuarios/${id}`,
-        updatedUser,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      const token = localStorage.getItem("token");
+      const userRole = localStorage.getItem("rol");
+      const baseUrl = "http://localhost:5000/api/admin";
+
+      let url;
+      let method;
+      
+      if (isNewUser) {
+        url = "http://localhost:5000/api/auth/registro";
+        method = "post";
+      } else {
+        url = userRole === "Superadmin" 
+          ? `${baseUrl}/superadmin/usuarios/${id}`
+          : `${baseUrl}/usuarios/${id}`;
+        method = "put";
+      }
+
+      const response = await axios({
+        method,
+        url,
+        data: userData,
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-      );
-      toast.success("Usuario actualizado correctamente");
+      });
+
+      toast.success(isNewUser ? "Usuario creado correctamente" : "Usuario actualizado correctamente");
       setTimeout(() => {
-        navigate("/admin");
-      }, 1000); // Redirige después de 2 segundos
+        navigate(userRole === "Superadmin" ? "/superadmin" : "/admin");
+      }, 1000);
     } catch (error) {
-      console.error("Error al actualizar el usuario:", error);
-      setError("Hubo un problema al actualizar el usuario");
+      console.error("Error:", error);
+      const errorMessage = error.response?.data?.mensaje || `Error al ${isNewUser ? 'crear' : 'actualizar'} el usuario`;
+      toast.error(errorMessage);
     }
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Container maxWidth="sm" sx={{ mt: 18, mb: 12 }}>
+        <Box display="flex" justifyContent="center">
+          <CircularProgress />
+        </Box>
+      </Container>
+    );
   }
 
   return (
     <Container maxWidth="sm" sx={{ mt: 18, mb: 12 }}>
-      {" "}
-      {/* Aumentamos el margen superior y añadimos margen inferior */}
       <Typography variant="h4" align="center" gutterBottom>
-        Actualizar Usuario
+        {isNewUser ? "Crear Nuevo Usuario" : "Actualizar Usuario"}
       </Typography>
-      {error && <Typography color="error">{error}</Typography>}
       <form onSubmit={handleSubmit}>
         <Box mb={2}>
           <TextField
@@ -104,6 +144,7 @@ const ActualizarUsuarioPage = () => {
             fullWidth
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
+            required
           />
         </Box>
 
@@ -112,43 +153,51 @@ const ActualizarUsuarioPage = () => {
             label="Correo"
             variant="outlined"
             fullWidth
+            type="email"
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
+            required
           />
         </Box>
 
         <Box mb={2}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel>Rol</InputLabel>
-            <Select
-              label="Rol"
-              value={rol}
-              onChange={(e) => setRol(e.target.value)}
-            >
-              <MenuItem value="Usuario">Usuario</MenuItem>
-              <MenuItem value="Admin">Administrador</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-
-        <Box mb={2}>
           <TextField
-            label="Contraseña"
+            label={isNewUser ? "Contraseña" : "Nueva Contraseña"}
             type="password"
             variant="outlined"
             fullWidth
             value={contraseña}
             onChange={(e) => setContraseña(e.target.value)}
-            helperText="Deja vacío si no deseas cambiar la contraseña"
+            required={isNewUser}
+            helperText={!isNewUser && "Dejar vacío si no deseas cambiar la contraseña"}
           />
         </Box>
 
+        {localStorage.getItem("rol") === "Superadmin" && (
+          <Box mb={2}>
+            <FormControl fullWidth>
+              <InputLabel>Rol</InputLabel>
+              <Select
+                value={rol}
+                label="Rol"
+                onChange={(e) => setRol(e.target.value)}
+                required
+              >
+                <MenuItem value="Usuario">Usuario</MenuItem>
+                <MenuItem value="Admin">Administrador</MenuItem>
+                <MenuItem value="Superadmin">Super Administrador</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        )}
+
         <Box display="flex" justifyContent="center" mt={3}>
           <Button variant="contained" color="primary" type="submit">
-            Actualizar Usuario
+            {isNewUser ? "Crear Usuario" : "Actualizar Usuario"}
           </Button>
         </Box>
       </form>
+      <ToastContainer />
     </Container>
   );
 };

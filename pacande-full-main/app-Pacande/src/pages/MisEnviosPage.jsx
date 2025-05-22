@@ -257,7 +257,11 @@ const MisEnviosPage = () => {
               </InfoItem>
               <InfoItem>
                 <Label>Costo de envío</Label>
-                <Value>${envio.costoEnvio.toLocaleString()}</Value>
+                <Value>${(envio.costoEnvio || 0).toLocaleString()}</Value>
+              </InfoItem>
+              <InfoItem>
+                <Label>Total del pedido</Label>
+                <Value>${(envio.total || 0).toLocaleString()}</Value>
               </InfoItem>
             </ShipmentInfo>
           </ShipmentBody>

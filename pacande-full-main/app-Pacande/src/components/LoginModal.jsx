@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { toast } from "react-toastify";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
-import { registerUser, loginUser } from "../services/authService"; // Asegúrate que la ruta sea correcta
+import { registerUser, loginUser } from "../services/authService";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -127,11 +127,15 @@ const ToggleLink = styled.p`
 const LoginModal = ({ onClose }) => {
   const [showRegister, setShowRegister] = useState(false);
   const [nombreCompleto, setNombreCompleto] = useState("");
-  const [correo, setCorreo] = useState(""); // Cambio de 'email' a 'correo'
-  const [contraseña, setContraseña] = useState(""); // Cambio de 'password' a 'contraseña'
+  const [correo, setCorreo] = useState("");
+  const [contraseña, setContraseña] = useState("");
 
   const toggleForm = () => {
     setShowRegister(!showRegister);
+    // Limpiar los campos al cambiar de formulario
+    setNombreCompleto("");
+    setCorreo("");
+    setContraseña("");
   };
 
   const handleSubmit = async (e) => {
@@ -139,35 +143,45 @@ const LoginModal = ({ onClose }) => {
 
     try {
       if (showRegister) {
-        await registerUser({
+        const response = await registerUser({
           nombre: nombreCompleto,
-          correo, // Enviar 'correo' en lugar de 'email'
-          contraseña, // Enviar 'contraseña' en lugar de 'password'
-        });
-        toast.success("✅ Registro exitoso");
-        setShowRegister(false); // Cambia al formulario de login
-        setNombreCompleto("");
-        setCorreo("");
-        setContraseña("");
-      } else {
-        const data = await loginUser({
           correo,
           contraseña,
         });
-        console.log("Respuesta del login:", data); // Para depuración
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("nombre", data.usuario.nombre);
-        localStorage.setItem("rol", data.usuario.rol);
-        localStorage.setItem("userId", data.usuario.id); // Cambiado de _id a id
-        toast.success("✅ Inicio de sesión exitoso");
-        console.log("ID de usuario guardado:", data.usuario.id); // Para depuración
-        setTimeout(() => {
-          onClose();
-          window.location.reload();
-        }, 2000);
+        
+        if (response.usuario) {
+          toast.success("✅ Registro exitoso");
+          setShowRegister(false);
+          setNombreCompleto("");
+          setCorreo("");
+          setContraseña("");
+        }
+      } else {
+        const response = await loginUser({
+          correo,
+          contraseña,
+        });
+
+        if (response.token && response.usuario) {
+          // Guardar datos del usuario
+          localStorage.setItem("token", response.token);
+          localStorage.setItem("nombre", response.usuario.nombre);
+          localStorage.setItem("rol", response.usuario.rol);
+          localStorage.setItem("userId", response.usuario._id);
+          localStorage.setItem("usuario", JSON.stringify(response.usuario));
+
+          toast.success("✅ Inicio de sesión exitoso");
+
+          // Cerrar el modal y recargar la página actual
+          setTimeout(() => {
+            onClose();
+            window.location.reload();
+          }, 1000);
+        }
       }
     } catch (err) {
-      toast.error(`❌ Error: ${err.message}`);
+      console.error("Error:", err);
+      toast.error(err.response?.data?.mensaje || "Error en la operación");
     }
   };
 

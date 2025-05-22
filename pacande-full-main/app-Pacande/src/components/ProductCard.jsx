@@ -2,6 +2,24 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import "uikit/dist/css/uikit.min.css";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
+import PurchaseDialog from "./PurchaseDialog";
+import { toast } from "react-hot-toast";
+import { addToCart } from "../services/cartService";
+import { keyframes } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
+import LoginModal from "./LoginModal";
+
+const addToCartAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
 const Card = styled.div`
   background-color: white;
@@ -52,11 +70,13 @@ const DiscountLabel = styled.div`
 
 const ProductImage = styled.img`
   width: 100%;
-  height: 250px;
+  aspect-ratio: 1;
   object-fit: contain;
   border-radius: 8px;
   margin-bottom: 10px;
   transition: transform 0.3s ease;
+  background-color: #f5f5f5;
+  padding: 10px;
   z-index: 1;
   &:hover {
     transform: scale(1.1);
@@ -125,12 +145,47 @@ const CartButton = styled.button`
   justify-content: center;
   gap: 10px;
   transition: background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
   &:hover {
     background-color: #cc0000;
+  }
+
+  &.adding {
+    animation: ${addToCartAnimation} 0.5s ease;
+  }
+
+  .cart-icon {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover .cart-icon {
+    transform: translateX(3px);
+  }
+`;
+
+const SuccessOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(40, 167, 69, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+
+  &.show {
+    transform: translateY(0);
   }
 `;
 
 const ProductCard = ({
+  _id,
   title,
   price,
   image,
@@ -140,9 +195,15 @@ const ProductCard = ({
   category,
   specifications,
   description,
+  subcategory
 }) => {
+  const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [openPurchaseDialog, setOpenPurchaseDialog] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleFavoriteClick = () => {
     setIsFavorite(!isFavorite);
@@ -156,7 +217,77 @@ const ProductCard = ({
     }
   };
 
-  const imageUrl = image || "http://placekitten.com/500/500"; // URL de imagen por defecto si no hay imagen
+  const checkAuthentication = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Por favor inicia sesión para realizar esta acción", {
+        icon: '🔒',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+        duration: 3000
+      });
+      setShowLoginModal(true);
+      return false;
+    }
+    return true;
+  };
+
+  const handleBuyClick = () => {
+    if (checkAuthentication()) {
+      setOpenPurchaseDialog(true);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (!checkAuthentication()) {
+      return;
+    }
+
+    try {
+      const productToAdd = {
+        _id,
+        title,
+        price,
+        image,
+        category,
+        subcategory
+      };
+      
+      setIsAddingToCart(true);
+      setShowSuccess(true);
+      
+      addToCart(productToAdd);
+      
+      toast.success("¡Producto agregado al carrito!", {
+        icon: '🛍️',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+
+      setTimeout(() => {
+        setIsAddingToCart(false);
+        setShowSuccess(false);
+      }, 1000);
+    } catch (error) {
+      console.error("Error al agregar al carrito:", error);
+      toast.error("Error al agregar el producto al carrito");
+      setIsAddingToCart(false);
+      setShowSuccess(false);
+    }
+  };
+
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false);
+    toast.success("¡Inicio de sesión exitoso!");
+  };
+
+  const imageUrl = image || "http://placekitten.com/500/500";
 
   return (
     <Card>
@@ -188,12 +319,39 @@ const ProductCard = ({
       )}
 
       <ButtonContainer>
-        <BuyButton>Comprar Ahora</BuyButton>
-        <CartButton>
-          <FaShoppingCart />
+        <BuyButton onClick={handleBuyClick}>Comprar Ahora</BuyButton>
+        <CartButton 
+          onClick={handleAddToCart} 
+          className={isAddingToCart ? 'adding' : ''}
+          disabled={isAddingToCart}
+        >
+          <FaShoppingCart className="cart-icon" />
           Agregar al Carrito
+          <SuccessOverlay className={showSuccess ? 'show' : ''}>
+            ¡Agregado! ✓
+          </SuccessOverlay>
         </CartButton>
       </ButtonContainer>
+
+      <PurchaseDialog
+        open={openPurchaseDialog}
+        onClose={() => setOpenPurchaseDialog(false)}
+        product={{
+          _id,
+          title,
+          price: typeof price === 'string' ? price.replace(/[^0-9]/g, '') : price,
+          image,
+          category,
+          subcategory
+        }}
+      />
+
+      {showLoginModal && (
+        <LoginModal 
+          onClose={() => setShowLoginModal(false)}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
     </Card>
   );
 };

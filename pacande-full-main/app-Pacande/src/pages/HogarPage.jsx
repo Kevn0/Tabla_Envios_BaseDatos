@@ -1,57 +1,73 @@
 // src/pages/HogarPage.js
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import ProductGallery from "../components/ProductGallery"; // Componente de galería reutilizado
-import Sidebar from "../components/Sidebar"; // Sidebar añadido
-import {
-  fetchExchangeRates,
-  convertCurrency,
-} from "../services/CurrencyService";
+import ProductGallery from "../components/ProductGallery";
+import { fetchExchangeRates, convertCurrency } from "../services/CurrencyService";
+import muebles from "../images/muebles.jpeg";
 
-// Estilos del contenedor principal
 const Container = styled.div`
-  display: flex;
   min-height: 100vh;
   background-color: #ffffff;
 `;
 
-// Contenedor principal de la sección de productos
 const MainContent = styled.div`
-  flex-grow: 1;
-  margin: 120px 0;
-  text-align: center;
-  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 120px 20px 40px;
 `;
 
-const SectionTitle = styled.h2`
-  margin-bottom: 15px;
-  color: #000000;
+const CategoryHeader = styled.div`
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+              url(${props => props.backgroundImage});
+  background-size: cover;
+  background-position: center;
+  padding: 60px 20px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+
+  h1 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 800;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+  }
+
+  p {
+    font-size: 1.8rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    font-weight: 500;
+  }
 `;
 
 const BorderedContainer = styled.div`
-  padding: 20px;
-  border-radius: 0px;
-  display: inline-block;
-  width: 100%;
-  max-width: 1200px;
-  background: rgba(192, 192, 192, 0.5);
-  border: 1px solid rgba(97, 106, 107, 0.3);
+  padding: 30px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 40px;
 `;
 
 const HogarPage = () => {
   const [currency, setCurrency] = useState("COP");
   const [exchangeRates, setExchangeRates] = useState({});
-  const [filteredMuebles, setFilteredMuebles] = useState([]);
-
+  const [products, setProducts] = useState([]);
   const selectedCategory = "Hogar";
   const selectedSubcategory = "Muebles";
 
   useEffect(() => {
     const fetchRates = async () => {
       const rates = await fetchExchangeRates();
-      if (rates) {
-        setExchangeRates(rates);
-      }
+      if (rates) setExchangeRates(rates);
     };
     fetchRates();
   }, []);
@@ -62,9 +78,9 @@ const HogarPage = () => {
         const res = await fetch(
           `http://localhost:5000/api/products/products?category=${selectedCategory}&subcategory=${selectedSubcategory}`
         );
-        if (!res.ok) throw new Error("Error al obtener productos");
+        if (!res.ok) throw new Error("Respuesta no válida del servidor");
         const data = await res.json();
-        setFilteredMuebles(data.products);
+        setProducts(data.products);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
@@ -81,19 +97,20 @@ const HogarPage = () => {
 
   return (
     <Container>
-      {/* Sidebar añadido */}
-      <Sidebar currency={currency} setCurrency={setCurrency} />
-
       <MainContent>
-        <SectionTitle>{`${selectedCategory} - ${selectedSubcategory}`}</SectionTitle>
+        <CategoryHeader backgroundImage={muebles}>
+          <h1>Muebles</h1>
+          <p>Encuentra los mejores muebles para tu hogar. Diseños modernos y funcionales para cada espacio.</p>
+        </CategoryHeader>
+        
         <BorderedContainer>
           <ProductGallery
-            products={filteredMuebles.map((product) => ({
+            products={products.map((product) => ({
               ...product,
               price: convertPrice(product.price),
-              image: product.imageUrl, // Asegúrate de que las imágenes estén bien definidas en el backend
+              image: product.imageUrl,
             }))}
-            showSizes={true}
+            showSpecs={true}
           />
         </BorderedContainer>
       </MainContent>

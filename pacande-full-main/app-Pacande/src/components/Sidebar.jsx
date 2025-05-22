@@ -164,7 +164,7 @@ const Sidebar = ({ currency, setCurrency }) => {
           <Link to="/Ropamujer">
             <Button>Mujer</Button>
           </Link>
-          <Link to="/ropa">
+          <Link to="/Ropahombre">
             <Button>Hombre</Button>
           </Link>
           <Link to="/Ropaniño">
@@ -197,7 +197,7 @@ const Sidebar = ({ currency, setCurrency }) => {
         </ButtonContainer>
         <h2>Deporte</h2>
         <ButtonContainer>
-          <Link to="/deporte">
+          <Link to="/deporte/futbol">
             <Button>Fútbol</Button>
           </Link>
           <Link to="/BaloncestoPage">

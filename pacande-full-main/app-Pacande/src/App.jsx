@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import AdminPage from "./pages/AdminPage"; // Importa la página de administración
+import SuperAdminPage from "./pages/SuperAdminPage"; // Importa la página de Super Administrador
 import HomePage from "./pages/HomePage";
 import Footer from "./components/Footer";
 import ContactPage from "./pages/ContactPage";
@@ -18,8 +19,8 @@ import ErrorPage from "./pages/ErrorPage";
 import TermsPage from "./pages/TermsPage"; // Importa la página de Términos
 import PrivacyPage from "./pages/PrivacyPage"; // Importa la página de Privacidad
 import HelpPage from "./pages/HelpPage"; // Importa la página de Ayuda
-import RopaPage from "./pages/RopaPage"; // Importa la página de Ropa
 import TecnologiaPage from "./pages/TecnologiaPage"; // Importa la página de Tecnología
+import HogarMainPage from "./pages/HogarMainPage";
 import HogarPage from "./pages/HogarPage"; // Importa la página de Hogar
 import DeportePage from "./pages/DeportePage"; // Importa la página de Deporte
 import VariedadPage from "./pages/VariedadPage";
@@ -30,9 +31,11 @@ import GardenPage from "./pages/GardenPage";
 import styled from "@emotion/styled";
 import logopaca from "./images/logopaca.png";
 import RopaMujer from "./pages/Ropamujer";
+import RopaHombre from "./pages/Ropahombre";
 import RopaNiñoPage from "./pages/Ropanino";
 import Tecnologiacomputadores from "./pages/Tecnologiacomputadores";
 import Tecnologiaaccesorios from "./pages/Tecnologiaaccesorios";
+import TecnologiaCelulares from "./pages/TecnologiaCelulares";
 import OfertaPage from "./pages/OfertasPage";
 import ProductPage from "./pages/ProductPage";
 import CreateProductPage from "./pages/CreateProductPage";
@@ -40,6 +43,11 @@ import CartPage from "./pages/CartPage";
 import MisEnviosPage from "./pages/MisEnviosPage";
 import AdminEnviosPage from "./pages/AdminEnviosPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminProductosPage from "./pages/AdminProductosPage"; // Importa la página de gestión de productos
+import CheckoutPage from "./pages/CheckoutPage";
+import RopaMainPage from "./pages/RopaMainPage"; // Importa la página principal de Ropa
+import DeportesMainPage from "./pages/DeportesMainPage"; // Importa la página principal de Deportes
+import TecnologiaMainPage from "./pages/TecnologiaMainPage";
 
 // Estilos para la pantalla de carga
 const LoaderContainer = styled.div`
@@ -111,32 +119,33 @@ const AppContent = () => {
         <Route path="/privacy" element={<PrivacyPage />} />{" "}
         {/* Ruta de Privacidad */}
         <Route path="/help" element={<HelpPage />} /> {/* Ruta de Ayuda */}
-        <Route path="/ropa" element={<RopaPage />} /> {/* Ruta para Ropa */}
+        <Route path="/ropa" element={<RopaMainPage />} /> {/* Ruta principal para Ropa */}
         <Route path="/Ropamujer" element={<RopaMujer />} />
-        <Route path="/Tecpc" element={<Tecnologiacomputadores />} />
+        <Route path="/Ropahombre" element={<RopaHombre />} />
         <Route path="/Ropaniño" element={<RopaNiñoPage />} />
+        <Route path="/tecnologia" element={<TecnologiaMainPage />} />
+        <Route path="/Teccel" element={<TecnologiaCelulares />} />
+        <Route path="/Tecpc" element={<Tecnologiacomputadores />} />
         <Route path="/Decorapage" element={<DecoraPage />} />
         <Route path="/GardenPage" element={<GardenPage />} />
         <Route path="/VariedadPage" element={<VariedadPage />} />
         <Route path="/BaloncestoPage" element={<BaloncestoPage />} />
         <Route path="/HogarPage" element={<HogarPage />} />
         <Route path="/Tecaccesorios" element={<Tecnologiaaccesorios />} />
-        <Route path="/tecnologia" element={<TecnologiaPage />} />{" "}
-        {/* Ruta para Tecnología */}
-        <Route path="/hogar" element={<HogarPage />} /> {/* Ruta para Hogar */}
-        <Route path="/deporte" element={<DeportePage />} />{" "}
-        {/* Ruta para Deporte */}
-        <Route path="/ofertas" element={<OfertaPage />} />{" "}
-        {/* Ruta para OfertaPage */}
+        <Route path="/hogar" element={<HogarMainPage />} />
+        <Route path="/deportes" element={<DeportesMainPage />} />
+        <Route path="/deporte/futbol" element={<DeportePage />} />
+        <Route path="/ofertas" element={<OfertaPage />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path="/perfil" element={<PerfilPage />} />
         <Route path="/carrito" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         
         {/* Rutas protegidas de administrador */}
         <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+        <Route path="/superadmin" element={<ProtectedRoute><SuperAdminPage /></ProtectedRoute>} />
         <Route path="/admin/actualizar-usuario/:id" element={<ProtectedRoute><ActualizarUsuarioPage /></ProtectedRoute>} />
-        <Route path="/products" element={<ProtectedRoute><ProductPage /></ProtectedRoute>} />
-        <Route path="/create-product" element={<ProtectedRoute><CreateProductPage /></ProtectedRoute>} />
+        <Route path="/admin/productos" element={<ProtectedRoute><AdminProductosPage /></ProtectedRoute>} />
         <Route path="/mis-envios" element={<MisEnviosPage />} />
         <Route path="/admin/envios" element={<ProtectedRoute><AdminEnviosPage /></ProtectedRoute>} />
       </Routes>

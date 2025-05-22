@@ -189,7 +189,7 @@ const HomePage = () => {
           </StyledLink>
         </WideCard>
         <WideCard image={hombreImage}>
-          <StyledLink to="/ropa">
+          <StyledLink to="/Ropahombre">
             <span>HOMBRE</span>
           </StyledLink>
         </WideCard>
@@ -199,7 +199,7 @@ const HomePage = () => {
       <h2>TECNOLOGÍA</h2>
       <TechCardContainer>
         <TechWideCard image={celulares}>
-          <StyledLink to="/Tecnologia">
+          <StyledLink to="/Teccel">
             <span>CELULARES</span>
           </StyledLink>
         </TechWideCard>
@@ -239,7 +239,7 @@ const HomePage = () => {
       <h2>DEPORTE</h2>
       <TechCardContainer>
         <TechWideCard image={futbol}>
-          <StyledLink to="/deporte">
+          <StyledLink to="/deporte/futbol">
             <span>FUTBOL</span>
           </StyledLink>
         </TechWideCard>

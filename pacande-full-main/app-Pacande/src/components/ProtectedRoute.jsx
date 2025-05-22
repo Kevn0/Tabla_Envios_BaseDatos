@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" />;
   }
 
-  if (rol !== "Admin") {
+  if (rol !== "Admin" && rol !== "Superadmin") {
     return <Navigate to="/" />;
   }
 

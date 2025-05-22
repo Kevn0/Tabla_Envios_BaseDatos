@@ -9,12 +9,19 @@ const ProductGallery = ({ products, showSizes }) => {
       data-uk-grid
     >
       {products.map((product, index) => (
-        <div key={index}>
+        <div key={product._id || index}>
           <ProductCard
+            _id={product._id}
             title={product.name}
             price={product.price}
             image={product.image}
             description={product.description}
+            category={product.category}
+            subcategory={product.subcategory}
+            specifications={product.specifications}
+            showSizes={showSizes}
+            sizes={product.sizes}
+            discount={product.discount}
           />
         </div>
       ))}

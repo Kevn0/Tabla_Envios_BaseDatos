@@ -5,6 +5,7 @@ import {
 } from "../services/shipmentService";
 import { toast } from "react-hot-toast";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 const AdminContainer = styled.div`
   padding: 40px 20px;
@@ -150,19 +151,39 @@ const EmptyState = styled.div`
 const AdminEnviosPage = () => {
   const [envios, setEnvios] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getAllShipments()
-      .then((res) => {
+    const fetchEnvios = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          toast.error("Debes iniciar sesión para acceder a esta página");
+          navigate("/login");
+          return;
+        }
+
+        const res = await getAllShipments();
         setEnvios(res.data);
+      } catch (err) {
+        console.error("Error al cargar envíos:", err);
+        const errorMessage = err.response?.data?.message || err.message;
+        setError(errorMessage);
+        
+        if (err.response?.status === 401) {
+          toast.error("Sesión expirada. Por favor, inicia sesión nuevamente");
+          navigate("/login");
+        } else {
+          toast.error(`Error al cargar los envíos: ${errorMessage}`);
+        }
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Error al cargar los envíos");
-        setLoading(false);
-      });
-  }, []);
+      }
+    };
+
+    fetchEnvios();
+  }, [navigate]);
 
   const handleChangeStatus = async (id, nuevoEstado) => {
     try {
@@ -174,8 +195,15 @@ const AdminEnviosPage = () => {
       );
       toast.success("Estado actualizado correctamente");
     } catch (err) {
-      console.error(err);
-      toast.error("Error al actualizar el estado");
+      console.error("Error al actualizar estado:", err);
+      const errorMessage = err.response?.data?.message || err.message;
+      
+      if (err.response?.status === 401) {
+        toast.error("Sesión expirada. Por favor, inicia sesión nuevamente");
+        navigate("/login");
+      } else {
+        toast.error(`Error al actualizar el estado: ${errorMessage}`);
+      }
     }
   };
 
@@ -184,6 +212,39 @@ const AdminEnviosPage = () => {
       <AdminContainer>
         <div className="uk-flex uk-flex-center uk-flex-middle" style={{minHeight: '300px'}}>
           <div uk-spinner="ratio: 2"></div>
+        </div>
+      </AdminContainer>
+    );
+  }
+
+  if (error) {
+    return (
+      <AdminContainer>
+        <Title>Gestión de Envíos</Title>
+        <div style={{
+          textAlign: 'center',
+          padding: '20px',
+          background: '#fff3f3',
+          borderRadius: '8px',
+          margin: '20px auto',
+          maxWidth: '600px'
+        }}>
+          <h4 style={{color: '#dc3545'}}>Error al cargar los envíos</h4>
+          <p>{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            style={{
+              background: '#dc3545',
+              color: 'white',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              marginTop: '10px'
+            }}
+          >
+            Intentar nuevamente
+          </button>
         </div>
       </AdminContainer>
     );

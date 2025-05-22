@@ -31,6 +31,10 @@ const shipmentSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      precio: {
+        type: Number,
+        required: true,
+      }
     },
   ],
   metodoEnvio: {
@@ -41,6 +45,10 @@ const shipmentSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  total: {
+    type: Number,
+    required: true,
+  }
 });
 
 module.exports = mongoose.model("Shipment", shipmentSchema);

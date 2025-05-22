@@ -165,23 +165,7 @@ const AdminPage = () => {
                         : "Fecha no disponible"}
                     </TableCell>
                     <TableCell align="center">
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        sx={styles.actionButton}
-                        onClick={() => irAActualizar(usuario._id)}
-                      >
-                        Actualizar
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        size="small"
-                        onClick={() => handleDeleteClick(usuario)}
-                      >
-                        Eliminar
-                      </Button>
+                      {/* Para administradores no mostramos botones de acción */}
                     </TableCell>
                   </TableRow>
                 ))}
